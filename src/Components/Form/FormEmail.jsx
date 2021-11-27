@@ -31,7 +31,7 @@ export default function formEmailForget({
   )
 }
 
-export function BasicTextFields({ itemInput, setItemInput }) {
+export function BasicTextFields({ label, setItemInput }) {
   return (
     <div>
       <div>
@@ -40,11 +40,13 @@ export function BasicTextFields({ itemInput, setItemInput }) {
           //error={errorEmail}
           fullWidth
           id="value"
-          label="Value"
+          label={label}
           name="value"
           autoComplete="value"
           onChange={(e) => setItemInput(e.target.value)}
           //helperText={errorEmail? 'Nhập email sai format!' : ' '}
+          autoFocus
+          margin="dense"
         />
       </div>
     </div>

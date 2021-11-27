@@ -20,16 +20,14 @@ export default function StreamTabPanel({ value, index }) {
   const theme = useTheme()
   const matchUpMD = useMediaQuery(theme.breakpoints.up("md"))
 
-  console.log("userId")
-
   let userId = null
   if (localStorage.isSocialLogin) {
     userId = JSON.parse(localStorage.isSocialLogin)._id
   } else if (localStorage.isLogin) {
-    console.log("vao localStorage")
+    //console.log("vao localStorage")
     userId = JSON.parse(localStorage.isLogin)._id
   }
-  console.log(userId)
+
   useEffect(() => {
     const fetchClassDetail = async () => {
       try {
@@ -40,7 +38,7 @@ export default function StreamTabPanel({ value, index }) {
         handleClassDetails(res.data)
 
         document.title = res.data.className
-        console.log("creatorId", res.data.creator)
+        //console.log("creatorId", res.data.creator)
         if (res.data.creator === userId) {
           localStorage.setItem("role", "creator")
           setRole("creator")
@@ -63,9 +61,9 @@ export default function StreamTabPanel({ value, index }) {
         const res = await axios.get(
           `${process.env.REACT_APP_HOST}classes/teachers-of-class/${classId}`
         )
-        console.log(res.data)
+        // console.log(res.data)
         const pos = res.data.find((element) => element.userId === userId)
-        console.log(pos)
+        // console.log(pos)
 
         if (pos) {
           localStorage.setItem("role", "creator")

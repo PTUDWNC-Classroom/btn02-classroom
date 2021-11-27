@@ -2,56 +2,19 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { useLocation } from "react-router"
 
-import {
-  Grid,
-  Container,
-  Typography,
-  Menu,
-  MenuItem,
-  IconButton,
-  Dialog,
-  DialogContent,
-  Button,
-} from "@mui/material"
+import { Grid, Container, Typography, Menu, MenuItem } from "@mui/material"
 import CircularProgress from "@mui/material/CircularProgress"
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
 
 import TabPanel from ".."
 import Account, { StudentAccount } from "./Account"
-import { styled } from "@mui/system"
-import { blue } from "@mui/material/colors"
-import { BasicTextFields } from "../../../Form/FormEmail"
 import sendInviteLink from "../../../DataConnection/SendInviteLink"
 //import { PermPhoneMsg } from "@mui/icons-material"
-
-const BlueTextTypography = styled(Typography)(({ theme }) => ({
-  color: blue[500],
-}))
-
-const TeachersGrid = styled(Grid)(({ theme }) => ({
-  borderBottom: `2px solid ${blue[500]}`,
-  paddingBottom: theme.spacing(2),
-}))
-
-const StudentGrid = styled(TeachersGrid)(({ theme }) => ({
-  marginTop: theme.spacing(10),
-}))
+import TeacherListTitle, { StudentListTitle } from "./ListTitle"
+import InvitationDialog from "./InvitationDialog"
 
 const getIdFromUrl = (url) => {
   const arr = url.split("/")
   return arr[arr.length - 1]
-}
-
-const StudentTotal = ({ studentList }) => {
-  const length = studentList.length
-
-  if (length === 0) {
-    return null
-  } else if (length === 1) {
-    return "1 student"
-  } else {
-    return `${length} students`
-  }
 }
 
 const StudentSettingMenu = ({ anchorEl, handleClose }) => {
@@ -86,13 +49,23 @@ export default function PeopleTabPanel({ value, index }) {
   const [itemInput, setItemInput] = useState(null)
   let location = useLocation()
   const [openPopup, setOpenPopup] = useState(false)
+  const [memberType, setMemberType] = useState("")
+  // const [open, setOpen] = React.useState(false)
+
+  // const handleClickOpen = () => {
+  //   setOpen(true)
+  // }
+
+  // const handleClose = () => {
+  //   setOpen(false)
+  // }
 
   const handleSend = async (e) => {
-    console.log(itemInput)
+    //console.log(itemInput)
     e.preventDefault()
     //console.log("chan ta");
     let url = location.pathname.split("/")
-    console.log(url[url.length - 1])
+    // console.log(url[url.length - 1])
     //sendMailInviteLink
     const sended = await sendInviteLink(url[url.length - 1], itemInput)
     if (sended === true) {
@@ -118,15 +91,8 @@ export default function PeopleTabPanel({ value, index }) {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleInviteTeacher = async () => {
-    console.log(role)
-    localStorage.setItem("inviteRole", "Teacher")
-
-    setOpenPopup(true)
-  }
-
-  const handleInviteStudent = () => {
-    localStorage.setItem("inviteRole", "Student")
+  const handleOpenPopup = (role) => {
+    setMemberType(role)
     setOpenPopup(true)
   }
 
@@ -194,22 +160,10 @@ export default function PeopleTabPanel({ value, index }) {
       <>
         <TabPanel value={value} index={index}>
           <Container maxWidth="md">
-            <TeachersGrid
-              container
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Grid item>
-                <BlueTextTypography variant="h4">Teachers</BlueTextTypography>
-              </Grid>
-              {role === "creator" && (
-                <Grid item>
-                  <IconButton color="primary" onClick={handleInviteTeacher}>
-                    <PersonAddAltIcon />
-                  </IconButton>
-                </Grid>
-              )}
-            </TeachersGrid>
+            <TeacherListTitle
+              role={role}
+              handleOpenPopup={() => handleOpenPopup("teacher")}
+            />
             <div>
               {teacherList &&
                 teacherList.map((teacher) => (
@@ -220,25 +174,12 @@ export default function PeopleTabPanel({ value, index }) {
                   />
                 ))}
             </div>
-
-            <StudentGrid container alignItems="center">
-              <Grid item flexGrow={1}>
-                <BlueTextTypography variant="h4">Students</BlueTextTypography>
-              </Grid>
-              <Grid item style={{ marginRight: 10 }}>
-                <BlueTextTypography>
-                  <StudentTotal studentList={studentList} />
-                </BlueTextTypography>
-              </Grid>
-              {role === "creator" && (
-                <Grid item>
-                  <IconButton color="primary" onClick={handleInviteStudent}>
-                    <PersonAddAltIcon />
-                  </IconButton>
-                </Grid>
-              )}
-            </StudentGrid>
-            <>
+            <StudentListTitle
+              role={role}
+              handleOpenPopup={() => handleOpenPopup("student")}
+              studentTotal={studentList ? studentList.length : 0}
+            />
+            <div>
               {studentList && localStorage.role === "creator"
                 ? studentList.map((student) => (
                     <StudentAccount
@@ -254,26 +195,16 @@ export default function PeopleTabPanel({ value, index }) {
                       handleClick={handleClick}
                     />
                   ))}
-            </>
-            <Dialog open={openPopup}>
-              <DialogContent>
-                <Typography>
-                  <b>Nhập Email để mời</b>
-                </Typography>
-                <form>
-                  <BasicTextFields
-                    itemInput={itemInput}
-                    setItemInput={setItemInput}
-                  />
-                  <Button type="cancel" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" onClick={handleSend}>
-                    Submit
-                  </Button>
-                </form>
-              </DialogContent>
-            </Dialog>
+            </div>
+            <InvitationDialog
+              memberType={memberType}
+              openPopup={openPopup}
+              itemInput={itemInput}
+              handleCancel={handleCancel}
+              handleSend={handleSend}
+              handleClickOpen={handleOpenPopup}
+              setItemInput={setItemInput}
+            />
           </Container>
         </TabPanel>
         <StudentSettingMenu handleClose={handleClose} anchorEl={anchorEl} />

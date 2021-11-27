@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
@@ -18,6 +18,7 @@ import ClassDetailsTabs, { TabsManagerDownMD } from "./ClassDetailsTabs"
 import CreateClassButton from "../Button/CreateClassButton"
 import AccountUser from "../Button/AccountUserButton"
 import { tabsContext } from "../../context/TabsContext"
+import NavigationDrawer from "./NavigationDrawer"
 
 const StyledAppBar = styled(AppBar)`
   background-color: ${grey[900]};
@@ -69,6 +70,7 @@ HideOnScroll.propTypes = {
 }
 
 export default function MenuAppBar({ handleRender }) {
+  const [openDrawer, setOpenDrawer] = useState(false)
   let location = useLocation()
   const theme = useTheme()
   let isLogin = null
@@ -80,6 +82,10 @@ export default function MenuAppBar({ handleRender }) {
   } else if (localStorage.getItem("isLogin")) {
     //console.log("create button")
     isLogin = JSON.parse(localStorage.isLogin)
+  }
+
+  const handleClickOpen = (newState) => {
+    setOpenDrawer(newState)
   }
 
   if (isLogin === null) {
@@ -95,9 +101,14 @@ export default function MenuAppBar({ handleRender }) {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
+                onClick={handleClickOpen}
               >
                 <MenuIcon />
               </MenuIconButton>
+              <NavigationDrawer
+                open={openDrawer}
+                handleClickOpen={handleClickOpen}
+              />
               <MainAppBar path={location.pathname} />
               <CreateClassButton handleRender={handleRender} />
               <AccountUser />

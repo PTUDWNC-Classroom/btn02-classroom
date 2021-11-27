@@ -50,7 +50,7 @@ export default function ClassJoin() {
       //console.log(JSON.parse(localStorage.isLogin))
       user = JSON.parse(localStorage.isLogin)
     }
-    console.log(user)
+    // console.log(user)
     let check = null
     if (str[str.length - 2] === "join-Teacher") {
       check = await addTeacherIntoClass(user, id)

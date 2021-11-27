@@ -55,12 +55,12 @@ export default function SignUp() {
   })
 
   const handleSend = async (e) => {
-    console.log(userInfo)
+    // console.log(userInfo)
     e.preventDefault()
-    console.log(itemInput)
+    // console.log(itemInput)
     const OTP = itemInput
     const check = await sendOtpValidEmail(OTP, userInfo)
-    console.log(check)
+    // console.log(check)
 
     if (check === true) {
       setUserInfo({
@@ -108,7 +108,7 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    console.log("submit")
+    // console.log("submit")
     const data = new FormData(event.currentTarget)
 
     const user = {
@@ -123,10 +123,10 @@ export default function SignUp() {
 
     //console.log(handleError(userInfo));
     if (handleError(user) === false) {
-      console.log("handle")
+      // console.log("handle")
       const checkExistInData = await sendUserInfoSignUp(userInfo)
-      console.log("checkExist")
-      console.log(checkExistInData)
+      // console.log("checkExist")
+      // console.log(checkExistInData)
       if (checkExistInData === true) {
         setOpenPopup(true)
       } else {
