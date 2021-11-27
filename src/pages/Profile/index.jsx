@@ -38,19 +38,16 @@ export default function Profile() {
   let user = {
     email: "",
     username: "",
-    userId: ""
+    userId: "",
   }
-  if(localStorage.isLogin)
-  {
-     user.email = JSON.parse(localStorage.isLogin).email
-     user.username = JSON.parse(localStorage.isLogin).username
-     user.userId = JSON.parse(localStorage.isLogin)._id
-  }
-  else if(localStorage.isSocialLogin)
-  {
-     user.email = JSON.parse(localStorage.isSocialLogin).email
-     user.username = JSON.parse(localStorage.isSocialLogin).username
-     user.userId = JSON.parse(localStorage.isSocialLogin)._id
+  if (localStorage.isLogin) {
+    user.email = JSON.parse(localStorage.isLogin).email
+    user.username = JSON.parse(localStorage.isLogin).username
+    user.userId = JSON.parse(localStorage.isLogin)._id
+  } else if (localStorage.isSocialLogin) {
+    user.email = JSON.parse(localStorage.isSocialLogin).email
+    user.username = JSON.parse(localStorage.isSocialLogin).username
+    user.userId = JSON.parse(localStorage.isSocialLogin)._id
   }
   // const email = JSON.parse(localStorage.isSocialLogin).email
   // const username = JSON.parse(localStorage.isSocialLogin).username

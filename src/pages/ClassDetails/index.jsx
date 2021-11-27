@@ -1,8 +1,8 @@
 import React from "react"
 
-import StreamTabPanel from "./StreamTabPanel/StreamTabPanel"
-import { tabsContext } from "../../../context/TabsContext"
-import PeopleTabPanel from "./PeopleTabPanel/PeopleTabPanel"
+import StreamTabPanel from "../../Components/Class/TabPanel/StreamTabPanel"
+import { tabsContext } from "../../context/TabsContext"
+import PeopleTabPanel from "../../Components/Class/TabPanel/PeopleTabPanel"
 
 export default function ClassDetails() {
   const { value } = React.useContext(tabsContext)

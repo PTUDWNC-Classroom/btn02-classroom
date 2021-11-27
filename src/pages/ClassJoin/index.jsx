@@ -13,7 +13,7 @@ import { Button } from "@mui/material"
 import { useHistory } from "react-router"
 import addStudentIntoClass, {
   addTeacherIntoClass,
-} from "../../DataConnection/JoinClass"
+} from "../../Components/DataConnection/JoinClass"
 // const StyledLinkRR = styled(LinkRR)(({ theme }) => ({
 //   textOverflow: "ellipsis",
 //   overflow: "hidden",

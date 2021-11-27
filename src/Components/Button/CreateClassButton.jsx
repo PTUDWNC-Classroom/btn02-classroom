@@ -43,14 +43,11 @@ export default function CreateClassButton({ handleRender }) {
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
 
-  let user = null;
-  if(localStorage.isSocialLogin)
-  {
-    user = JSON.parse(localStorage.isSocialLogin);
-  }
-  else if (localStorage.isLogin)
-  {
-    user = JSON.parse(localStorage.isLogin);
+  let user = null
+  if (localStorage.isSocialLogin) {
+    user = JSON.parse(localStorage.isSocialLogin)
+  } else if (localStorage.isLogin) {
+    user = JSON.parse(localStorage.isLogin)
   }
 
   let location = useLocation()
@@ -101,7 +98,7 @@ export default function CreateClassButton({ handleRender }) {
           section: data.section,
           subject: data.subject,
           room: data.room,
-          _id: user._id
+          _id: user._id,
         }
       )
 

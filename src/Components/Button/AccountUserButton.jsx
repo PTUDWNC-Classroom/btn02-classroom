@@ -13,7 +13,7 @@ import Settings from "@mui/icons-material/Settings"
 import Logout from "@mui/icons-material/Logout"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 
-import SocialLogout from "../User/Social-SignIn/Google-Logout-Button"
+import SocialLogout from "./GoogleLogoutButton"
 import { useHistory } from "react-router"
 import { Link } from "react-router-dom"
 import { styled } from "@mui/system"

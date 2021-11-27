@@ -16,11 +16,11 @@ import {
 import CircularProgress from "@mui/material/CircularProgress"
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
 
-import TabPanel from "../TabPanel"
+import TabPanel from ".."
 import Account, { StudentAccount } from "./Account"
 import { styled } from "@mui/system"
 import { blue } from "@mui/material/colors"
-import { BasicTextFields } from "../../../User/Email/Form-Email"
+import { BasicTextFields } from "../../../Form/FormEmail"
 import sendInviteLink from "../../../DataConnection/SendInviteLink"
 //import { PermPhoneMsg } from "@mui/icons-material"
 

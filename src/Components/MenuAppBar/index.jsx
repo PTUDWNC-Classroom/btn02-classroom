@@ -15,8 +15,8 @@ import Slide from "@mui/material/Slide"
 import { useLocation } from "react-router-dom"
 
 import ClassDetailsTabs, { TabsManagerDownMD } from "./ClassDetailsTabs"
-import CreateClassButton from "./CreateClassButton"
-import AccountUser from "./AccountUser"
+import CreateClassButton from "../Button/CreateClassButton"
+import AccountUser from "../Button/AccountUserButton"
 import { tabsContext } from "../../context/TabsContext"
 
 const StyledAppBar = styled(AppBar)`

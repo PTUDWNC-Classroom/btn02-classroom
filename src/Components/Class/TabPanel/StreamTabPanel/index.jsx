@@ -5,13 +5,13 @@ import { useLocation } from "react-router"
 import { Grid, Container } from "@mui/material"
 
 import ClassTopic from "./ClassTopic"
-import TabPanel from "../TabPanel"
 import ClassInfo from "./ClassInfo"
 import UpcommingTask from "./UpcommingTask"
 import ClassAnnoucement from "./ClassAnnounment"
 import { tabsContext } from "../../../../context/TabsContext"
 import { useTheme } from "@mui/material/styles"
 import useMediaQuery from "@mui/material/useMediaQuery"
+import TabPanel from ".."
 
 export default function StreamTabPanel({ value, index }) {
   const [classInfo, setClassInfo] = useState({})
@@ -21,15 +21,11 @@ export default function StreamTabPanel({ value, index }) {
   const matchUpMD = useMediaQuery(theme.breakpoints.up("md"))
 
   console.log("userId")
-  
-  let userId = null;
-  if(localStorage.isSocialLogin)
-  {
-    
-    userId =JSON.parse(localStorage.isSocialLogin)._id
-  }
-  else if (localStorage.isLogin)
-  {
+
+  let userId = null
+  if (localStorage.isSocialLogin) {
+    userId = JSON.parse(localStorage.isSocialLogin)._id
+  } else if (localStorage.isLogin) {
     console.log("vao localStorage")
     userId = JSON.parse(localStorage.isLogin)._id
   }
