@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   Grid,
   Paper,
@@ -7,28 +7,15 @@ import {
   ListItem,
   List,
   ListItemText,
-  IconButton,
-  TextField,
-  Button,
 } from "@mui/material"
 import { styled } from "@mui/system"
-import EditIcon from "@mui/icons-material/Edit"
-import { red } from "@mui/material/colors"
 import axios from "axios"
+
+import StudentIDListItem from "../../Components/User/StudentIDListItem"
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
 }))
-
-const CancelButton = styled(Button)`
-  color: ${red[500]};
-  border-color: ${red[500]};
-  &:hover {
-    border-color: ${red[500]};
-    background-color: ${red[50]};
-  }
-  margin-right: 1rem;
-`
 
 export default function Profile() {
   const [edit, setEdit] = React.useState(false)
@@ -39,7 +26,9 @@ export default function Profile() {
     email: "",
     username: "",
     userId: "",
+    studentId: "",
   }
+
   if (localStorage.isLogin) {
     user.email = JSON.parse(localStorage.isLogin).email
     user.username = JSON.parse(localStorage.isLogin).username
@@ -82,6 +71,10 @@ export default function Profile() {
     } else alert("Please enter your student ID before saving!")
   }
 
+  useEffect(() => {
+    document.title = "Profile"
+  }, [])
+
   return (
     <Grid container justifyContent="center" spacing={3}>
       <Grid container item xs={12} alignItems="center" direction="column">
@@ -107,66 +100,24 @@ export default function Profile() {
               <List>
                 <ListItem>
                   <Grid container alignItems="center">
-                    <Grid item md={3} xs={12}>
+                    <Grid item sm={3} xs={12}>
                       <ListItemText>
                         <b>Email</b>
                       </ListItemText>
                     </Grid>
-                    <Grid item md={9} xs={12}>
+                    <Grid item sm={9} xs={12}>
                       <Typography variant="subtitle1">{user.email}</Typography>
                     </Grid>
                   </Grid>
                   <ListItemText />
                 </ListItem>
-                <ListItem>
-                  <Grid container alignItems="center">
-                    <Grid item md={3} xs={12}>
-                      <ListItemText>
-                        <b>Student ID</b>
-                      </ListItemText>
-                    </Grid>
-                    <Grid item md={8} xs={11}>
-                      {edit ? (
-                        <TextField
-                          size="small"
-                          value={studentId}
-                          onChange={handleChangeStudentId}
-                          helperText="You have 1 time to enter your student ID"
-                        />
-                      ) : (
-                        <Typography variant="subtitle1">{studentId}</Typography>
-                      )}
-                    </Grid>
-                    {!studentId && (
-                      <Grid item xs={1}>
-                        <IconButton onClick={handleEdit}>
-                          <EditIcon />
-                        </IconButton>
-                      </Grid>
-                    )}
-                  </Grid>
-                </ListItem>
-                {edit && (
-                  <ListItem style={{ marginTop: 15 }}>
-                    <Grid container alignItems="center">
-                      <Grid item md={3}></Grid>
-                      <Grid item>
-                        <CancelButton variant="outlined" onClick={handleEdit}>
-                          Cancel
-                        </CancelButton>
-                      </Grid>
-                      <Grid item>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          onClick={handleAddStudentId}
-                        >
-                          Save
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </ListItem>
-                )}
+                <StudentIDListItem
+                  studentId={studentId}
+                  handleChangeStudentId={handleChangeStudentId}
+                  handleAddStudentId={handleAddStudentId}
+                  edit={edit}
+                  handleEdit={handleEdit}
+                />
               </List>
             </Grid>
           </Grid>

@@ -102,7 +102,7 @@ export default function NavigationDrawer({ open, handleClickOpen }) {
             </List>
             <Divider />
             <List>
-              <ListItem button onClick={() => alert("a")}>
+              <ListItem button>
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>

@@ -4,9 +4,18 @@ import { GoogleLogin } from "react-google-login"
 import { GoogleButton } from "react-google-button"
 import { useHistory } from "react-router"
 import { sendUserInfoSocial } from "../DataConnection/SignUpHandler"
+import { styled } from "@mui/system"
 
 const clientId =
   "613642092414-lvnn10cq77c733cd23iqmqpmvih03j7j.apps.googleusercontent.com"
+
+const StyledGoogleButton = styled(GoogleButton)`
+  float: none;
+  position: static;
+  display: block;
+  margin: auto;
+  width: max-content;
+`
 
 function SocialLogin() {
   //console.log("sociallogin");
@@ -60,13 +69,13 @@ function SocialLogin() {
       <GoogleLogin
         clientId={clientId}
         render={(renderProps) => (
-          <GoogleButton
+          <StyledGoogleButton
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
-            style={{ width: 396 }}
+            style={{ margin: "auto", marginTop: 16, marginBottom: 16 }}
           >
             Sign in with Google
-          </GoogleButton>
+          </StyledGoogleButton>
         )}
         onSuccess={onSuccess}
         onFailure={onFailure}

@@ -7,6 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText"
 import DialogTitle from "@mui/material/DialogTitle"
 
 import { BasicTextFields } from "../../../Form/FormEmail"
+import CancelButton from "../../../Button/CancelButton"
 
 export default function InvitationDialog({
   memberType,
@@ -28,9 +29,11 @@ export default function InvitationDialog({
             setItemInput={setItemInput}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleSend}>Submit</Button>
+        <DialogActions style={{ padding: "0 24 16 0" }}>
+          <CancelButton onClick={handleCancel}>Cancel</CancelButton>
+          <Button variant="contained" onClick={handleSend}>
+            Submit
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -29,8 +29,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href={`${process.env.REACT_APP_DEPLOY_HOST}`}>
+        Classroom1821
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -87,6 +87,9 @@ export default function SignIn() {
   }
 
   //console.log("sign-in")
+  useEffect(() => {
+    document.title = "Sign in"
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -144,9 +147,10 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-
+            <Typography variant="h6" textAlign="center">
+              or
+            </Typography>
             <SocialLogin />
-
             <Grid container>
               <Grid item xs>
                 <Link

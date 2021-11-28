@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import { red, green, grey } from "@mui/material/colors"
+import { green, grey } from "@mui/material/colors"
 import { styled } from "@mui/system"
 import CircularProgress from "@mui/material/CircularProgress"
 import { Box } from "@mui/system"
@@ -22,14 +22,7 @@ import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useLocation } from "react-router"
 
-const CancelButton = styled(Button)`
-  color: ${red[500]};
-
-  &:hover {
-    border-color: ${red[500]};
-    background-color: ${red[50]};
-  }
-`
+import CancelButton from "./CancelButton"
 
 const AddIconButton = styled(IconButton)`
   &:hover {
