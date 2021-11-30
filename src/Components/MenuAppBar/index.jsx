@@ -84,8 +84,8 @@ export default function MenuAppBar({ handleRender }) {
     isLogin = JSON.parse(localStorage.isLogin)
   }
 
-  const handleClickOpen = (newState) => {
-    setOpenDrawer(newState)
+  const handleClickOpen = () => {
+    setOpenDrawer(!openDrawer)
   }
 
   if (isLogin === null) {

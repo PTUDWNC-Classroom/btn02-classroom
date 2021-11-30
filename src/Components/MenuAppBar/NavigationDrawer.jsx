@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import Box from "@mui/material/Box"
 import Drawer from "@mui/material/Drawer"
 import List from "@mui/material/List"
@@ -12,6 +12,7 @@ import { useHistory } from "react-router"
 import ListItemAvatar from "@mui/material/ListItemAvatar"
 import Avatar from "@mui/material/Avatar"
 import { ListSubheader } from "@mui/material"
+import { ClassroomContext } from "../../context/ClassroomContext"
 
 const stringToColor = (string) => {
   let hash = 0
@@ -58,6 +59,7 @@ const ClassListItem = ({ id, className, section }) => {
 }
 
 export default function NavigationDrawer({ open, handleClickOpen }) {
+  const { classList } = useContext(ClassroomContext)
   const history = useHistory()
 
   const toggleDrawer = (open) => (event) => {
@@ -98,7 +100,15 @@ export default function NavigationDrawer({ open, handleClickOpen }) {
               <ListSubheader component="div" id="enrolled-class-list-subheader">
                 Enrolled
               </ListSubheader>
-              <ClassListItem id="1" className={"PTUDWNC"} section={"HK1"} />
+              {classList.length > 0 &&
+                classList.map((item, index) => (
+                  <ClassListItem
+                    key={index}
+                    id={item._id}
+                    className={item.className}
+                    section={item.section}
+                  />
+                ))}
             </List>
             <Divider />
             <List>

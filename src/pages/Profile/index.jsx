@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import {
   Grid,
   Paper,
@@ -12,6 +12,7 @@ import { styled } from "@mui/system"
 import axios from "axios"
 
 import StudentIDListItem from "../../Components/User/StudentIDListItem"
+import { ClassroomContext } from "../../context/ClassroomContext"
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -19,28 +20,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 export default function Profile() {
   const [edit, setEdit] = React.useState(false)
-
   const [studentId, setStudentId] = React.useState("")
-  //console.log(JSON.parse(localStorage.isLogin))
-  let user = {
-    email: "",
-    username: "",
-    userId: "",
-    studentId: "",
-  }
-
-  if (localStorage.isLogin) {
-    user.email = JSON.parse(localStorage.isLogin).email
-    user.username = JSON.parse(localStorage.isLogin).username
-    user.userId = JSON.parse(localStorage.isLogin)._id
-  } else if (localStorage.isSocialLogin) {
-    user.email = JSON.parse(localStorage.isSocialLogin).email
-    user.username = JSON.parse(localStorage.isSocialLogin).username
-    user.userId = JSON.parse(localStorage.isSocialLogin)._id
-  }
-  // const email = JSON.parse(localStorage.isSocialLogin).email
-  // const username = JSON.parse(localStorage.isSocialLogin).username
-  // const userId = JSON.parse(localStorage.isSocialLogin)._id
+  const { user } = useContext(ClassroomContext)
 
   const handleEdit = () => {
     setEdit(!edit)
@@ -112,7 +93,7 @@ export default function Profile() {
                   <ListItemText />
                 </ListItem>
                 <StudentIDListItem
-                  studentId={studentId}
+                  studentId={user.studentId}
                   handleChangeStudentId={handleChangeStudentId}
                   handleAddStudentId={handleAddStudentId}
                   edit={edit}

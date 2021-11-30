@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useContext } from "react"
 
 import IconButton from "@mui/material/IconButton"
 import MenuItem from "@mui/material/MenuItem"
@@ -17,12 +17,12 @@ import { green, grey } from "@mui/material/colors"
 import { styled } from "@mui/system"
 import CircularProgress from "@mui/material/CircularProgress"
 import { Box } from "@mui/system"
-
 import axios from "axios"
 import { useForm } from "react-hook-form"
 import { useLocation } from "react-router"
 
 import CancelButton from "./CancelButton"
+import { ClassroomContext } from "../../context/ClassroomContext"
 
 const AddIconButton = styled(IconButton)`
   &:hover {
@@ -35,13 +35,16 @@ export default function CreateClassButton({ handleRender }) {
   const [openCreateClass, setOpenCreateClass] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const { user } = useContext(ClassroomContext)
 
-  let user = null
-  if (localStorage.isSocialLogin) {
-    user = JSON.parse(localStorage.isSocialLogin)
-  } else if (localStorage.isLogin) {
-    user = JSON.parse(localStorage.isLogin)
-  }
+  //change user
+
+  // let user = null
+  // if (localStorage.isSocialLogin) {
+  //   user = JSON.parse(localStorage.isSocialLogin)
+  // } else if (localStorage.isLogin) {
+  //   user = JSON.parse(localStorage.isLogin)
+  // }
 
   let location = useLocation()
   const pathArr = location.pathname.split("/")
@@ -77,13 +80,6 @@ export default function CreateClassButton({ handleRender }) {
     setLoading(true)
 
     try {
-      // const response = await axios.post(`${process.env.REACT_APP_HOST}classes`, {
-      //   className: data.className,
-      //   section: data.section,
-      //   subject: data.subject,
-      //   room: data.room,
-      // });
-
       const response = await axios.post(
         `${process.env.REACT_APP_HOST}classes`,
         {
@@ -91,7 +87,7 @@ export default function CreateClassButton({ handleRender }) {
           section: data.section,
           subject: data.subject,
           room: data.room,
-          _id: user._id,
+          _id: user.userId,
         }
       )
 

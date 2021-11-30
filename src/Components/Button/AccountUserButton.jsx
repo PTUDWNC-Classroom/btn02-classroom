@@ -48,6 +48,7 @@ export default function AccountUser() {
   const handleLogout = () => {
     //REMOVE localStorage
     localStorage.removeItem("isLogin")
+    localStorage.removeItem("token")
     history.replace("/")
   }
   return (

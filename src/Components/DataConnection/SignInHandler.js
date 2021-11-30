@@ -1,20 +1,21 @@
-import axios from "axios";
+import axios from "axios"
 
 const url = `${process.env.REACT_APP_HOST}user/sign-in`
 
-export default async function sendUserInfoSignIn(userInfo) 
-{
-    //console.log(userInfo);
-    try {
-      //const response = await axios.get(`${process.env.REACT_APP_HOST}classes`);
-      const response = await axios.post(url,{
-        username: userInfo.username,
-        password: userInfo.password,
-                  });
-     //console.log("response")
-     return response.data;
-    } catch (error) {
-      //console.error(error);
-      return false;
-    }
+export default async function sendUserInfoSignIn(userInfo) {
+  try {
+    axios.interceptors.request.use((req) => {
+      req.headers.authorization = localStorage.token
+      return req
+    })
+
+    const response = await axios.post(url, {
+      username: userInfo.username,
+      password: userInfo.password,
+    })
+    return response.data
+  } catch (error) {
+    console.error(error)
+    return false
   }
+}

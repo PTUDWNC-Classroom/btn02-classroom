@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import Avatar from "@mui/material/Avatar"
 import Button from "@mui/material/Button"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -18,6 +18,7 @@ import sendUserInfoSignIn from "../../Components/DataConnection/SignInHandler"
 import { Dialog, DialogContent } from "@mui/material"
 import { BasicTextFields } from "../../Components/Form/FormEmail"
 import { useHistory } from "react-router"
+import { ClassroomContext } from "../../context/ClassroomContext"
 //import formEmailForget from './Email/Form-Email';
 
 function Copyright(props) {
@@ -43,28 +44,30 @@ const theme = createTheme()
 export default function SignIn() {
   const history = useHistory()
   const [openPopup, setOpenPopup] = useState(false)
+  const { login } = useContext(ClassroomContext)
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    // eslint-disable-next-line no-console
-    // console.log({
-    //   username: data.get('username'),
-    //   password: data.get('password'),
-    // });
 
     const userInfo = {
       username: data.get("username"),
       password: data.get("password"),
     }
     const user = await sendUserInfoSignIn(userInfo)
-    // console.log("da vao sendUserInfoSignIn")
-    // console.log(user);
+
     if (user !== false) {
-      // SET ITEM localStorage Login
       localStorage.setItem("isLogin", JSON.stringify(user))
       alert("Đăng nhập thành công !!!")
-      //console.log("đang nhap")
-      //console.log(localStorage.previousLocation)
+
+      localStorage.setItem("token", `JWT  ${user.token}`)
+
+      login({
+        userId: user.user._id,
+        username: user.user.username,
+        email: user.user.email,
+      })
+
       if (localStorage.previousLocation) {
         console.log(localStorage.previousLocation)
       } else {

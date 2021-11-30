@@ -53,7 +53,7 @@ export default function StreamTabPanel({ value, index }) {
 
     fetchClassDetail()
     // eslint-disable-next-line
-  }, [userId])
+  }, [userId, location.pathname])
 
   useEffect(() => {
     const fetchTeacherOfClass = async (classId) => {
