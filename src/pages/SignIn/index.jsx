@@ -56,17 +56,11 @@ export default function SignIn() {
     }
     const user = await sendUserInfoSignIn(userInfo)
 
-    if (user !== false) {
+    if (user) {
       localStorage.setItem("isLogin", JSON.stringify(user))
       alert("Đăng nhập thành công !!!")
-
-      localStorage.setItem("token", `JWT  ${user.token}`)
-
-      login({
-        userId: user.user._id,
-        username: user.user.username,
-        email: user.user.email,
-      })
+      localStorage.setItem("token", `Bearer  ${user.token}`)
+      login(user.user)
 
       if (localStorage.previousLocation) {
         console.log(localStorage.previousLocation)

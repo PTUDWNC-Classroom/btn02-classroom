@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
@@ -11,6 +11,7 @@ import { useTheme } from "@mui/material/styles"
 import PropTypes from "prop-types"
 import useScrollTrigger from "@mui/material/useScrollTrigger"
 import Slide from "@mui/material/Slide"
+import axios from "axios"
 
 import { useLocation } from "react-router-dom"
 
@@ -19,6 +20,7 @@ import CreateClassButton from "../Button/CreateClassButton"
 import AccountUser from "../Button/AccountUserButton"
 import { tabsContext } from "../../context/TabsContext"
 import NavigationDrawer from "./NavigationDrawer"
+import { ClassroomContext } from "../../context/ClassroomContext"
 
 const StyledAppBar = styled(AppBar)`
   background-color: ${grey[900]};
@@ -75,6 +77,7 @@ export default function MenuAppBar({ handleRender }) {
   const theme = useTheme()
   let isLogin = null
   const { role } = React.useContext(tabsContext)
+  const { updateClassList, login, user } = React.useContext(ClassroomContext)
 
   // isLogin là social hoặc login bình thường
   if (localStorage.getItem("isSocialLogin")) {
@@ -87,6 +90,38 @@ export default function MenuAppBar({ handleRender }) {
   const handleClickOpen = () => {
     setOpenDrawer(!openDrawer)
   }
+
+  useEffect(() => {
+    const getClassList = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_HOST}classes/class-list`
+        )
+
+        updateClassList(response.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    const getUser = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_HOST}user/${isLogin._id}`
+        )
+        login(response.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    if (!user._id) {
+      getUser()
+      getClassList()
+    }
+
+    // eslint-disable-next-line
+  }, [])
 
   if (isLogin === null) {
     return null

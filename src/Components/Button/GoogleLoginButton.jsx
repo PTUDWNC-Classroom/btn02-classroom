@@ -1,13 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 
 import { GoogleLogin } from "react-google-login"
 import { GoogleButton } from "react-google-button"
 import { useHistory } from "react-router"
 import { sendUserInfoSocial } from "../DataConnection/SignUpHandler"
 import { styled } from "@mui/system"
-
-const clientId =
-  "613642092414-lvnn10cq77c733cd23iqmqpmvih03j7j.apps.googleusercontent.com"
+import { ClassroomContext } from "../../context/ClassroomContext"
 
 const StyledGoogleButton = styled(GoogleButton)`
   float: none;
@@ -18,26 +16,22 @@ const StyledGoogleButton = styled(GoogleButton)`
 `
 
 function SocialLogin() {
-  //console.log("sociallogin");
   const history = useHistory()
+  const { login } = useContext(ClassroomContext)
   const onSuccess = async (res) => {
-    //console.log(res.profileObj);
-    const user = {
+    //res: response from google
+    const info = {
       name: res.profileObj.name,
       email: res.profileObj.email,
+      idToken: res.tokenId,
     }
 
-    const _id = await sendUserInfoSocial(user)
-    //console.log("id")
-    //console.log(_id);
-    if (_id !== false) {
-      const userInfo = {
-        _id: _id,
-        username: res.profileObj.name,
-        email: res.profileObj.email,
-      }
+    const verifiedUser = await sendUserInfoSocial(info)
+    if (verifiedUser) {
       // SET ITEM localStorage
-      localStorage.setItem("isSocialLogin", JSON.stringify(userInfo))
+      localStorage.setItem("isSocialLogin", JSON.stringify(verifiedUser.user))
+      localStorage.setItem("token", `Bearer  ${verifiedUser.idToken}`)
+      login(verifiedUser.user)
       alert("Đăng nhập thành công !")
 
       //console.log(localStorage.previousLocation);
@@ -67,12 +61,12 @@ function SocialLogin() {
   return (
     <div>
       <GoogleLogin
-        clientId={clientId}
+        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         render={(renderProps) => (
           <StyledGoogleButton
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
-            style={{ margin: "auto", marginTop: 16, marginBottom: 16 }}
+            style={{ marginTop: 16, marginBottom: 16, width: "100%" }}
           >
             Sign in with Google
           </StyledGoogleButton>

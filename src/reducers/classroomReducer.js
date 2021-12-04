@@ -5,7 +5,7 @@ export default function classroomReducer(state, action) {
     case actionType.LOGIN:
       return {
         ...state,
-        user: action.payload,
+        user: { ...action.payload },
       }
 
     case actionType.LOGOUT:
@@ -24,18 +24,9 @@ export default function classroomReducer(state, action) {
       }
 
     case actionType.UPDATE_ROLE_IN_CLASS:
-      const updatedEmployee = action.payload
-
-      const updatedEmployees = state.employees.map((employee) => {
-        if (employee.id === updatedEmployee.id) {
-          return updatedEmployee
-        }
-        return employee
-      })
-
       return {
         ...state,
-        employees: updatedEmployees,
+        roleInClass: action.payload,
       }
 
     default:

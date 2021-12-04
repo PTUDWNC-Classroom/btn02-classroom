@@ -3,6 +3,14 @@ import ReactDOM from "react-dom"
 import "./index.css"
 import App from "./Components/App/App"
 import reportWebVitals from "./reportWebVitals"
+import axios from "axios"
+
+//Default header setting for all axios requests
+const token = localStorage.getItem("token")
+axios.interceptors.request.use((req) => {
+  req.headers.authorization = token || ""
+  return req
+})
 
 ReactDOM.render(
   <React.StrictMode>

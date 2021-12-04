@@ -2,7 +2,7 @@ import axios from "axios"
 
 const url = `${process.env.REACT_APP_HOST}user/sign-up`
 const url1 = `${process.env.REACT_APP_HOST}user/valid-email`
-const url2 = `${process.env.REACT_APP_HOST}user/login-social`
+//const url2 = `${process.env.REACT_APP_HOST}user/login-social`
 
 export default async function sendUserInfoSignUp(userInfo) {
   //console.log(userInfo);
@@ -16,23 +16,24 @@ export default async function sendUserInfoSignUp(userInfo) {
 
     return response.data
   } catch (error) {
-    //console.error(error);
+    console.error(error)
   }
 }
 
 export async function sendUserInfoSocial(userInfo) {
-  // console.log(userInfo);
   try {
-    //const response = await axios.get(`${process.env.REACT_APP_HOST}classes`);
-    const response = await axios.post(url2, {
-      email: userInfo.email,
-      username: userInfo.name,
-    })
-    //  console.log("response");
-    //  console.log(response.data);
+    //sent idToken to get user info and JWT
+    const response = await axios.post(
+      `${process.env.REACT_APP_HOST}user/login-social`,
+      {
+        idToken: userInfo.idToken,
+      }
+    )
+
     return response.data
   } catch (error) {
     console.error(error)
+    return null
   }
 }
 

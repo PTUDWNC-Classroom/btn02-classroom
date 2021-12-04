@@ -87,7 +87,7 @@ export default function CreateClassButton({ handleRender }) {
           section: data.section,
           subject: data.subject,
           room: data.room,
-          _id: user.userId,
+          _id: user._id,
         }
       )
 

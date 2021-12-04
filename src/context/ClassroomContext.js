@@ -5,7 +5,7 @@ import classroomReducer from "../reducers/classroomReducer"
 const initialState = {
   classList: [],
   user: {
-    userId: "",
+    _id: "",
     username: "",
     email: "",
     studentId: "",

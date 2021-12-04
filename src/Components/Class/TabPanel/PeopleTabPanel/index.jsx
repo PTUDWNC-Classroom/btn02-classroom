@@ -114,11 +114,6 @@ export default function PeopleTabPanel({ value, index }) {
 
     const getStudentList = async (classId) => {
       try {
-        axios.interceptors.request.use((req) => {
-          req.headers.authorization = localStorage.token
-          return req
-        })
-
         const response = await axios.get(
           `${process.env.REACT_APP_HOST}classes/students-of-class/${classId}`
         )

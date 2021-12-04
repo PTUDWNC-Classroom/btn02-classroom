@@ -40,11 +40,6 @@ const ClassList = ({ newClassId }) => {
   useEffect(() => {
     const getClassList = async () => {
       try {
-        axios.interceptors.request.use((req) => {
-          req.headers.authorization = localStorage.token
-          return req
-        })
-
         const response = await axios.get(
           `${process.env.REACT_APP_HOST}classes/class-list`
         )

@@ -37,7 +37,7 @@ export default function Profile() {
         const response = await axios.post(
           `${process.env.REACT_APP_HOST}user/add-student-id`,
           {
-            userId: user.userId,
+            userId: user._id,
             studentId: studentId,
           }
         )
