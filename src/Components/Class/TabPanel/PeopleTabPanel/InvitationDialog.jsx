@@ -16,7 +16,11 @@ export default function InvitationDialog({
   handleSend,
   handleCancel,
   setItemInput,
+  errorEmail,
+  message
 }) {
+  // console.log("invitation")
+  // console.log(errorEmail);
   return (
     <div>
       <Dialog fullWidth maxWidth="sm" open={openPopup} onClose={handleCancel}>
@@ -27,11 +31,13 @@ export default function InvitationDialog({
             label="Email address"
             itemInput={itemInput}
             setItemInput={setItemInput}
+            errorEmail = {errorEmail}
+            message = {message}
           />
         </DialogContent>
         <DialogActions style={{ padding: "0 24 16 0" }}>
           <CancelButton onClick={handleCancel}>Cancel</CancelButton>
-          <Button variant="contained" onClick={handleSend}>
+          <Button variant="contained" onClick={()=>{handleSend()}}>
             Submit
           </Button>
         </DialogActions>

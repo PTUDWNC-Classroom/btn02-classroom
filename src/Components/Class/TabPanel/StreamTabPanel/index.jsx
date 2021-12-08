@@ -12,6 +12,7 @@ import { tabsContext } from "../../../../context/TabsContext"
 import { useTheme } from "@mui/material/styles"
 import useMediaQuery from "@mui/material/useMediaQuery"
 import TabPanel from ".."
+import GradeStruct from "./GradeStruct"
 
 export default function StreamTabPanel({ value, index }) {
   const [classInfo, setClassInfo] = useState({})
@@ -94,9 +95,14 @@ export default function StreamTabPanel({ value, index }) {
           </Grid>
 
           {matchUpMD && (
-            <Grid item xs={3}>
+            <Grid container item xs={3} spacing={2}>
+            <Grid item xs={12}>
               <UpcommingTask />
             </Grid>
+            <Grid item xs={12}>
+              <GradeStruct />
+            </Grid>
+          </Grid>
           )}
 
           <Grid container item md={9} sm={12} spacing={3}>

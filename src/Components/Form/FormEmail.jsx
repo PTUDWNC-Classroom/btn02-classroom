@@ -31,13 +31,14 @@ export default function formEmailForget({
   )
 }
 
-export function BasicTextFields({ label, setItemInput }) {
+export function BasicTextFields({ label, itemInput, setItemInput, errorEmail, message  }) {
+  console.log(itemInput)
   return (
     <div>
       <div>
         <TextField
           required
-          //error={errorEmail}
+          error={errorEmail}
           fullWidth
           id="value"
           label={label}
@@ -47,6 +48,7 @@ export function BasicTextFields({ label, setItemInput }) {
           //helperText={errorEmail? 'Nhập email sai format!' : ' '}
           autoFocus
           margin="dense"
+          helperText={errorEmail ? message : " "}
         />
       </div>
     </div>
