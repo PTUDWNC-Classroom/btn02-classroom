@@ -3,7 +3,6 @@ const actionType = {
   LOGOUT: "LOGOUT",
   ADD_CLASS: "ADD_CLASS",
   UPDATE_CLASS_LIST: " UPDATE_CLASS_LIST",
-  UPDATE_ROLE_IN_CLASS: "UPDATE_ROLE_IN_CLASS",
 }
 
 export default actionType

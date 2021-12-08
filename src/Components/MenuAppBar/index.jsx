@@ -22,7 +22,6 @@ import { tabsContext } from "../../context/TabsContext"
 import NavigationDrawer from "./NavigationDrawer"
 import { ClassroomContext } from "../../context/ClassroomContext"
 
-
 const StyledAppBar = styled(AppBar)`
   background-color: ${grey[900]};
   color: ${grey[100]};
@@ -100,7 +99,6 @@ export default function MenuAppBar({ handleRender }) {
         )
 
         updateClassList(response.data)
-        console.log("app bar", response.data)
       } catch (error) {
         console.error(error)
       }
@@ -108,9 +106,7 @@ export default function MenuAppBar({ handleRender }) {
 
     const getUser = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_HOST}user/${isLogin._id}`
-        )
+        const response = await axios.get(`${process.env.REACT_APP_HOST}user`)
         login(response.data)
       } catch (error) {
         console.error(error)

@@ -2,7 +2,17 @@ import React, { useState, useEffect, useContext } from "react"
 import axios from "axios"
 import { useLocation } from "react-router"
 
-import { Grid, Container, Typography, Menu, MenuItem, Stack, Alert, Collapse, IconButton } from "@mui/material"
+import {
+  Grid,
+  Container,
+  Typography,
+  Menu,
+  MenuItem,
+  Stack,
+  Alert,
+  Collapse,
+  IconButton,
+} from "@mui/material"
 import CircularProgress from "@mui/material/CircularProgress"
 
 import TabPanel from ".."
@@ -52,14 +62,14 @@ export default function PeopleTabPanel({ value, index }) {
   let location = useLocation()
   const [openPopup, setOpenPopup] = useState(false)
   const [memberType, setMemberType] = useState("")
-  const [errorEmail, setErrorEmail] = useState(null);
+  const [errorEmail, setErrorEmail] = useState(null)
   const message = "Nhập email sai format hoặc bỏ trống !"
-  const [openAlert, setOpenAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const [openAlert, setOpenAlert] = useState(false)
+  const [alertMessage, setAlertMessage] = useState("")
   const { role } = useContext(tabsContext)
 
   const checkEmail = async () => {
-    setErrorEmail(!itemInput.match(/.+@.+/));
+    setErrorEmail(!itemInput.match(/.+@.+/))
     //console.log("error")
   }
   const handleSend = async () => {
@@ -67,11 +77,11 @@ export default function PeopleTabPanel({ value, index }) {
     //e.preventDefault()
     //console.log( itemInput === null);
 
-    await checkEmail();
+    await checkEmail()
 
     //console.log("handlesend")
     //console.log(itemInput);
-    if ((!itemInput.match(/.+@.+/)) === false) {
+    if (!itemInput.match(/.+@.+/) === false) {
       let url = location.pathname.split("/")
       console.log(url[url.length - 1])
       //sendMailInviteLink
@@ -81,14 +91,14 @@ export default function PeopleTabPanel({ value, index }) {
         memberType
       )
       if (sended === true) {
-        setAlertMessage("Đã gửi thành công !");
-        setOpenAlert(true);
+        setAlertMessage("Đã gửi thành công !")
+        setOpenAlert(true)
       } else {
         alert("Chưa gửi được!")
       }
       setOpenPopup(false)
     }
-    console.log(errorEmail);
+    console.log(errorEmail)
   }
 
   const handleCancel = (e) => {
@@ -107,8 +117,8 @@ export default function PeopleTabPanel({ value, index }) {
   }
 
   const handleOpenPopup = (type) => {
-    setItemInput("");
-    setErrorEmail(null);
+    setItemInput("")
+    setErrorEmail(null)
     setMemberType(type)
     setOpenPopup(true)
   }
@@ -149,7 +159,7 @@ export default function PeopleTabPanel({ value, index }) {
     getStudentList(classId)
 
     // eslint-disable-next-line
-  }, [])
+  }, [location.pathname])
 
   if (error) {
     return (
@@ -185,7 +195,7 @@ export default function PeopleTabPanel({ value, index }) {
                     color="inherit"
                     size="small"
                     onClick={() => {
-                      setOpenAlert(false);
+                      setOpenAlert(false)
                     }}
                   >
                     <Close fontSize="inherit" />
@@ -222,26 +232,28 @@ export default function PeopleTabPanel({ value, index }) {
             <div>
               {studentList && role === "creator"
                 ? studentList.map((student) => (
-                  <StudentAccount
-                    key={student.userId}
-                    userName={student.username}
-                    handleClick={handleClick}
-                  />
-                ))
+                    <StudentAccount
+                      key={student.userId}
+                      userName={student.username}
+                      handleClick={handleClick}
+                    />
+                  ))
                 : studentList.map((student) => (
-                  <Account
-                    key={student.userId}
-                    userName={student.username}
-                    handleClick={handleClick}
-                  />
-                ))}
+                    <Account
+                      key={student.userId}
+                      userName={student.username}
+                      handleClick={handleClick}
+                    />
+                  ))}
             </div>
             <InvitationDialog
               memberType={memberType}
               openPopup={openPopup}
               itemInput={itemInput}
               handleCancel={handleCancel}
-              handleSend={() => { handleSend() }}
+              handleSend={() => {
+                handleSend()
+              }}
               setItemInput={setItemInput}
               errorEmail={errorEmail}
               message={message}

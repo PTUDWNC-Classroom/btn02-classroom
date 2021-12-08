@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import axios from "axios"
 import { useLocation } from "react-router"
 
@@ -13,34 +13,42 @@ import { useTheme } from "@mui/material/styles"
 import useMediaQuery from "@mui/material/useMediaQuery"
 import TabPanel from ".."
 import GradeStruct from "./GradeStruct"
+import { ClassroomContext } from "../../../../context/ClassroomContext"
 
 export default function StreamTabPanel({ value, index }) {
-  const [classInfo, setClassInfo] = useState({})
-  const { handleClassDetails, setRole, role } = React.useContext(tabsContext)
+  const { handleClassDetails, setRole, role, classDetails } =
+    React.useContext(tabsContext)
+  const { user } = useContext(ClassroomContext)
   let location = useLocation()
   const theme = useTheme()
   const matchUpMD = useMediaQuery(theme.breakpoints.up("md"))
 
-  let userId = null
-  if (localStorage.isSocialLogin) {
-    userId = JSON.parse(localStorage.isSocialLogin)._id
-  } else if (localStorage.isLogin) {
-    //console.log("vao localStorage")
-    userId = JSON.parse(localStorage.isLogin)._id
-  }
-
   useEffect(() => {
     const fetchClassDetail = async () => {
       try {
+        // GET /classes/:id
         const res = await axios.get(
           process.env.REACT_APP_HOST + location.pathname.replace("/", "")
         )
-        setClassInfo(res.data)
-        handleClassDetails(res.data)
 
+        const res2 = await axios.get(
+          `${process.env.REACT_APP_HOST}classes/teachers-of-class/${res.data._id}`
+        )
+
+        handleClassDetails(res.data)
         document.title = res.data.className
-        //console.log("creatorId", res.data.creator)
-        if (res.data.creator === userId) {
+
+        if (res.data.creator === user._id) {
+          setRole("creator")
+        } else {
+          setRole("member")
+        }
+
+        const pos = res2.data.findIndex(
+          (element) => element.userId === user._id
+        )
+
+        if (pos >= 0) {
           setRole("creator")
         } else {
           setRole("member")
@@ -52,32 +60,7 @@ export default function StreamTabPanel({ value, index }) {
 
     fetchClassDetail()
     // eslint-disable-next-line
-  }, [userId, location.pathname])
-
-  useEffect(() => {
-    const fetchTeacherOfClass = async (classId) => {
-      try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_HOST}classes/teachers-of-class/${classId}`
-        )
-        // console.log(res.data)
-        const pos = res.data.find((element) => element.userId === userId)
-        // console.log(pos)
-
-        if (pos) {
-          setRole("creator")
-        } else {
-          setRole("member")
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    if (classInfo._id) fetchTeacherOfClass(classInfo._id)
-
-    // eslint-disable-next-line
-  }, [classInfo, userId])
+  }, [location.pathname, user._id])
 
   return (
     <TabPanel value={value} index={index}>
@@ -86,23 +69,23 @@ export default function StreamTabPanel({ value, index }) {
           <Grid item xs={12}>
             <ClassInfo
               role={role}
-              className={classInfo.className}
-              section={classInfo.section}
-              subject={classInfo.subject}
-              room={classInfo.room}
-              inviteCode={classInfo.inviteCode}
+              className={classDetails.className}
+              section={classDetails.section}
+              subject={classDetails.subject}
+              room={classDetails.room}
+              inviteCode={classDetails.inviteCode}
             />
           </Grid>
 
           {matchUpMD && (
             <Grid container item xs={3} spacing={2}>
-            <Grid item xs={12}>
-              <UpcommingTask />
+              <Grid item xs={12}>
+                <UpcommingTask />
+              </Grid>
+              <Grid item xs={12}>
+                <GradeStruct />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <GradeStruct />
-            </Grid>
-          </Grid>
           )}
 
           <Grid container item md={9} sm={12} spacing={3}>

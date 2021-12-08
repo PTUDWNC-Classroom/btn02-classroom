@@ -13,7 +13,6 @@ if (localStorage.isSocialLogin) {
 const initialState = {
   classList: [],
   user: user,
-  roleInClass: "",
 }
 
 export const ClassroomContext = createContext(initialState)
@@ -48,24 +47,15 @@ export const ClassroomContextProvider = ({ children }) => {
     })
   }
 
-  const updateRoleInClass = (role) => {
-    dispatch({
-      type: actionType.UPDATE_ROLE_IN_CLASS,
-      payload: role,
-    })
-  }
-
   return (
     <ClassroomContext.Provider
       value={{
         classList: state.classList,
         user: state.user,
-        roleInClass: state.roleInClass,
         login,
         logout,
         addClass,
         updateClassList,
-        updateRoleInClass,
       }}
     >
       {children}

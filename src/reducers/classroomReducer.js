@@ -23,12 +23,6 @@ export default function classroomReducer(state, action) {
         classList: [...state.classList, action.payload],
       }
 
-    case actionType.UPDATE_ROLE_IN_CLASS:
-      return {
-        ...state,
-        roleInClass: action.payload,
-      }
-
     default:
       return state
   }
