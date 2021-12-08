@@ -77,7 +77,7 @@ export default function MenuAppBar({ handleRender }) {
   const theme = useTheme()
   let isLogin = null
   const { role } = React.useContext(tabsContext)
-  const { updateClassList, login, user } = React.useContext(ClassroomContext)
+  const { updateClassList, login } = React.useContext(ClassroomContext)
 
   // isLogin là social hoặc login bình thường
   if (localStorage.getItem("isSocialLogin")) {
@@ -99,6 +99,7 @@ export default function MenuAppBar({ handleRender }) {
         )
 
         updateClassList(response.data)
+        console.log("app bar", response.data)
       } catch (error) {
         console.error(error)
       }
@@ -115,7 +116,7 @@ export default function MenuAppBar({ handleRender }) {
       }
     }
 
-    if (!user._id) {
+    if (localStorage.token) {
       getUser()
       getClassList()
     }

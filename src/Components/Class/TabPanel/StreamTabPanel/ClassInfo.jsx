@@ -133,7 +133,8 @@ export default function ClassInfo({
                 overflow="hidden"
                 text-overflow="ellipsis"
               >
-                <b>Invitation link:</b> {location + `/join-Student/${inviteCode}`}
+                <b>Invitation link:</b>{" "}
+                {location + `/join-Student/${inviteCode}`}
               </Typography>
               <Tooltip title={copy ? "Copied!" : "Click to copy"}>
                 <IconButton

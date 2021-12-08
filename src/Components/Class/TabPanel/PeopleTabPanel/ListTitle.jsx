@@ -32,8 +32,6 @@ const StudentTotal = ({ total }) => {
 
 export default function TeacherListTitle({ role, handleOpenPopup }) {
   const handleInviteTeacher = async () => {
-    localStorage.setItem("inviteRole", "Teacher")
-
     handleOpenPopup(true)
   }
 
@@ -55,8 +53,6 @@ export default function TeacherListTitle({ role, handleOpenPopup }) {
 
 export function StudentListTitle({ role, handleOpenPopup, studentTotal }) {
   const handleInviteStudent = async () => {
-    localStorage.setItem("inviteRole", "Student")
-
     handleOpenPopup(true)
   }
 

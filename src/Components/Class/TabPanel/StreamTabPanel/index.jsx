@@ -15,7 +15,7 @@ import TabPanel from ".."
 
 export default function StreamTabPanel({ value, index }) {
   const [classInfo, setClassInfo] = useState({})
-  const { handleClassDetails, setRole } = React.useContext(tabsContext)
+  const { handleClassDetails, setRole, role } = React.useContext(tabsContext)
   let location = useLocation()
   const theme = useTheme()
   const matchUpMD = useMediaQuery(theme.breakpoints.up("md"))
@@ -40,10 +40,8 @@ export default function StreamTabPanel({ value, index }) {
         document.title = res.data.className
         //console.log("creatorId", res.data.creator)
         if (res.data.creator === userId) {
-          localStorage.setItem("role", "creator")
           setRole("creator")
         } else {
-          localStorage.setItem("role", "member")
           setRole("member")
         }
       } catch (error) {
@@ -66,10 +64,8 @@ export default function StreamTabPanel({ value, index }) {
         // console.log(pos)
 
         if (pos) {
-          localStorage.setItem("role", "creator")
           setRole("creator")
         } else {
-          localStorage.setItem("role", "member")
           setRole("member")
         }
       } catch (error) {
@@ -88,7 +84,7 @@ export default function StreamTabPanel({ value, index }) {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <ClassInfo
-              role={localStorage.role}
+              role={role}
               className={classInfo.className}
               section={classInfo.section}
               subject={classInfo.subject}

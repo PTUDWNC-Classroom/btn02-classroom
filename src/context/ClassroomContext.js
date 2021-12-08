@@ -2,14 +2,17 @@ import React, { createContext, useReducer } from "react"
 import actionType from "../constants/actionType"
 import classroomReducer from "../reducers/classroomReducer"
 
+// Check user in localStorage to init context
+let user = null
+if (localStorage.isSocialLogin) {
+  user = JSON.parse(localStorage.isSocialLogin)
+} else if (localStorage.isLogin) {
+  user = JSON.parse(localStorage.isLogin)
+}
+
 const initialState = {
   classList: [],
-  user: {
-    _id: "",
-    username: "",
-    email: "",
-    studentId: "",
-  },
+  user: user,
   roleInClass: "",
 }
 

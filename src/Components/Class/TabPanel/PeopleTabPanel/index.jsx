@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import axios from "axios"
 import { useLocation } from "react-router"
 
@@ -11,6 +11,7 @@ import sendInviteLink from "../../../DataConnection/SendInviteLink"
 //import { PermPhoneMsg } from "@mui/icons-material"
 import TeacherListTitle, { StudentListTitle } from "./ListTitle"
 import InvitationDialog from "./InvitationDialog"
+import { tabsContext } from "../../../../context/TabsContext"
 
 const getIdFromUrl = (url) => {
   const arr = url.split("/")
@@ -50,24 +51,20 @@ export default function PeopleTabPanel({ value, index }) {
   let location = useLocation()
   const [openPopup, setOpenPopup] = useState(false)
   const [memberType, setMemberType] = useState("")
-  // const [open, setOpen] = React.useState(false)
-
-  // const handleClickOpen = () => {
-  //   setOpen(true)
-  // }
-
-  // const handleClose = () => {
-  //   setOpen(false)
-  // }
+  const { role } = useContext(tabsContext)
 
   const handleSend = async (e) => {
     //console.log(itemInput)
     e.preventDefault()
     //console.log("chan ta");
     let url = location.pathname.split("/")
-    // console.log(url[url.length - 1])
+    console.log(url[url.length - 1])
     //sendMailInviteLink
-    const sended = await sendInviteLink(url[url.length - 1], itemInput)
+    const sended = await sendInviteLink(
+      url[url.length - 1],
+      itemInput,
+      memberType
+    )
     if (sended === true) {
       alert("Đã gửi thành công!")
     } else {
@@ -81,7 +78,7 @@ export default function PeopleTabPanel({ value, index }) {
     setOpenPopup(false)
   }
 
-  const role = localStorage.role
+  //const role = localStorage.role
 
   const handleClose = () => {
     setAnchorEl(null)
@@ -91,8 +88,8 @@ export default function PeopleTabPanel({ value, index }) {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleOpenPopup = (role) => {
-    setMemberType(role)
+  const handleOpenPopup = (type) => {
+    setMemberType(type)
     setOpenPopup(true)
   }
 
@@ -180,7 +177,7 @@ export default function PeopleTabPanel({ value, index }) {
               studentTotal={studentList ? studentList.length : 0}
             />
             <div>
-              {studentList && localStorage.role === "creator"
+              {studentList && role === "creator"
                 ? studentList.map((student) => (
                     <StudentAccount
                       key={student.userId}
@@ -202,7 +199,6 @@ export default function PeopleTabPanel({ value, index }) {
               itemInput={itemInput}
               handleCancel={handleCancel}
               handleSend={handleSend}
-              handleClickOpen={handleOpenPopup}
               setItemInput={setItemInput}
             />
           </Container>
