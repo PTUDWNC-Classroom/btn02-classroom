@@ -1,15 +1,14 @@
-import axios from "axios"
+import classroomAxios from "./axiosConfig"
 
 //const url = "http://localhost:3000/join/add-student"
-const url = `${process.env.REACT_APP_HOST}join/add-student`
-const url1 = `${process.env.REACT_APP_HOST}join/add-teacher`
+const url = `join/add-student`
+const url1 = `join/add-teacher`
 
 export default async function addStudentIntoClass(userInfo, id) {
   //console.log("userInfo")
   //console.log(userInfo);
   try {
-    //const response = await axios.get(`${process.env.REACT_APP_HOST}classes`);
-    const response = await axios.post(url, {
+    const response = await classroomAxios.post(url, {
       _id: userInfo._id,
       username: userInfo.username,
       email: userInfo.email,
@@ -27,8 +26,7 @@ export async function addTeacherIntoClass(userInfo, id) {
   // console.log("userInfo")
   // console.log(userInfo);
   try {
-    //const response = await axios.get(`${process.env.REACT_APP_HOST}classes`);
-    const response = await axios.post(url1, {
+    const response = await classroomAxios.post(url1, {
       _id: userInfo._id,
       username: userInfo.username,
       email: userInfo.email,

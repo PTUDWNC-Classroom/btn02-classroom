@@ -6,6 +6,7 @@ import { useHistory } from "react-router"
 import { sendUserInfoSocial } from "../DataConnection/SignUpHandler"
 import { styled } from "@mui/system"
 import { ClassroomContext } from "../../context/ClassroomContext"
+//import useLocalStorage from "../../hooks/useLocalStorage"
 
 const StyledGoogleButton = styled(GoogleButton)`
   float: none;
@@ -29,10 +30,21 @@ function SocialLogin() {
     const verifiedUser = await sendUserInfoSocial(info)
     if (verifiedUser) {
       // SET ITEM localStorage
-      localStorage.setItem("isSocialLogin", JSON.stringify(verifiedUser.user))
-      localStorage.setItem("token", `Bearer  ${verifiedUser.idToken}`)
-      login(verifiedUser.user)
-      alert("Đăng nhập thành công !")
+      try {
+        window.localStorage.setItem(
+          "isSocialLogin",
+          JSON.stringify(verifiedUser.user)
+        )
+        window.localStorage.setItem("token", `Bearer  ${verifiedUser.idToken}`)
+
+        // Dispatch "local-storage" event to call
+        window.dispatchEvent(new Event("local-storage"))
+        login(verifiedUser.user)
+
+        alert("Đăng nhập thành công !")
+      } catch (error) {
+        console.error(error)
+      }
 
       //console.log(localStorage.previousLocation);
       if (localStorage.previousLocation) {

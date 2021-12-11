@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react"
-import axios from "axios"
+import classroomAxios from "../../../DataConnection/axiosConfig"
 import { useLocation } from "react-router"
 
 import { Grid, Container } from "@mui/material"
@@ -27,12 +27,10 @@ export default function StreamTabPanel({ value, index }) {
     const fetchClassDetail = async () => {
       try {
         // GET /classes/:id
-        const res = await axios.get(
-          process.env.REACT_APP_HOST + location.pathname.replace("/", "")
-        )
+        const res = await classroomAxios.get(location.pathname.replace("/", ""))
 
-        const res2 = await axios.get(
-          `${process.env.REACT_APP_HOST}classes/teachers-of-class/${res.data._id}`
+        const res2 = await classroomAxios.get(
+          `classes/teachers-of-class/${res.data._id}`
         )
 
         handleClassDetails(res.data)

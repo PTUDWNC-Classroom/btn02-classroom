@@ -1,15 +1,21 @@
 import axios from "axios"
 
+// Create an instance
 const classroomAxios = axios.create({
   baseURL: process.env.REACT_APP_HOST,
-  // baseURL: process.env.APP_API_BASE_URL,
+  headers: {
+    Authorization: localStorage.token,
+  },
 })
 
-classroomAxios.interceptors.request.use(function (config) {
-  const token = localStorage.getItem("token")
-  console.log(token)
-  config.headers.authorization = token ? `Bearer ${token}` : ""
-  return config
-})
+/**
+ * Add authorization headers with new token
+ */
+export const setToken = () => {
+  classroomAxios.interceptors.request.use(async (config) => {
+    config.headers.Authorization = window.localStorage.getItem("token") || null
+    return config
+  })
+}
 
 export default classroomAxios

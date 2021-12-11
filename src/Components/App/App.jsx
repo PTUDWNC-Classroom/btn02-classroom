@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import { Redirect, Switch } from "react-router"
 import { styled } from "@mui/system"
@@ -15,6 +15,7 @@ import SocialLogin from "../Button/GoogleLoginButton"
 import Profile from "../../pages/Profile"
 import ClassList from "../../pages/ClassList"
 import { ClassroomContextProvider } from "../../context/ClassroomContext"
+import { setToken } from "../DataConnection/axiosConfig"
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(3),
@@ -29,6 +30,17 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 
 function App() {
   const [newClassId, setNewClassId] = useState("")
+
+  useEffect(() => {
+    /*
+    setToken function will be called when local-storage event is dispatched when user logs in
+    */
+    window.addEventListener("local-storage", setToken)
+    return () => {
+      window.removeEventListener("local-storage", setToken)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  })
 
   return (
     <Router>

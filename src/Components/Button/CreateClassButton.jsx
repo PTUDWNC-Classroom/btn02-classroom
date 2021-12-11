@@ -17,7 +17,7 @@ import { green, grey } from "@mui/material/colors"
 import { styled } from "@mui/system"
 import CircularProgress from "@mui/material/CircularProgress"
 import { Box } from "@mui/system"
-import axios from "axios"
+import classroomAxios from "../DataConnection/axiosConfig"
 import { useForm } from "react-hook-form"
 import { useLocation } from "react-router"
 
@@ -80,16 +80,13 @@ export default function CreateClassButton({ handleRender }) {
     setLoading(true)
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_HOST}classes`,
-        {
-          className: data.className,
-          section: data.section,
-          subject: data.subject,
-          room: data.room,
-          _id: user._id,
-        }
-      )
+      const response = await classroomAxios.post(`classes`, {
+        className: data.className,
+        section: data.section,
+        subject: data.subject,
+        room: data.room,
+        _id: user._id,
+      })
 
       handleRender(response.data)
       setError(null)

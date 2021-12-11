@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import axios from "axios"
+import classroomAxios from "../../../DataConnection/axiosConfig"
 import { Grid, Paper, Typography } from "@mui/material"
 import { styled } from "@mui/system"
 import { grey } from "@mui/material/colors"
@@ -17,10 +17,9 @@ export default function GradeStruct() {
   useEffect(() => {
     const getGradeStruct = async () => {
       try {
-        const res = await axios.post(
-          `${process.env.REACT_APP_HOST}assignment/getGradeAssignment`,
-          { classId: classId }
-        )
+        const res = await classroomAxios.post(`assignment/getGradeAssignment`, {
+          classId: classId,
+        })
 
         if (res) {
           //console.log(res.data)

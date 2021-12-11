@@ -9,7 +9,7 @@ import {
   AddGradeAssignmentCard,
   GradeAssignmentCard,
 } from "./GradeAssignmentCard"
-import axios from "axios"
+import classroomAxios from "../../../DataConnection/axiosConfig"
 import { useLocation } from "react-router"
 
 export default function AssignmentStruct() {
@@ -31,8 +31,8 @@ export default function AssignmentStruct() {
         //     user: "vd"
         // }
         // );
-        const response = await axios.post(
-          `${process.env.REACT_APP_HOST}assignment/getGradeAssignment`,
+        const response = await classroomAxios.post(
+          `assignment/getGradeAssignment`,
           {
             classId: classId,
           }
@@ -57,8 +57,8 @@ export default function AssignmentStruct() {
     // theo đường dẫn /assignment/updateIndexAssignment
     const UpdateAssignment = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_HOST}assignment/updateIndexAssignment`,
+        const response = await classroomAxios.post(
+          `assignment/updateIndexAssignment`,
           {
             classId: classId,
             sourceId: sourceId,

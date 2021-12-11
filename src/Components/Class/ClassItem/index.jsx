@@ -6,7 +6,7 @@ import FolderIcon from "@mui/icons-material/Folder"
 import MovingIcon from "@mui/icons-material/Moving"
 import { blue, grey } from "@mui/material/colors"
 import { Link as LinkRR } from "react-router-dom"
-import axios from "axios"
+import classroomAxios from "../../DataConnection/axiosConfig"
 
 const StyledInfoGrid = styled(Grid)(({ theme }) => ({
   backgroundColor: blue[700],
@@ -39,8 +39,8 @@ export default function ClassItem({ id, className, section, handleClick }) {
   React.useEffect(() => {
     const getStudentList = async (classId) => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_HOST}classes/students-of-class/${classId}`
+        const response = await classroomAxios.get(
+          `classes/students-of-class/${classId}`
         )
 
         setStudentList(response.data)
@@ -51,6 +51,12 @@ export default function ClassItem({ id, className, section, handleClick }) {
 
     getStudentList(id)
 
+    /*
+    To fix error "Can't perform a React state update on an unmounted component"
+    */
+    return () => {
+      setStudentList([])
+    }
     // eslint-disable-next-line
   }, [])
 

@@ -1,15 +1,8 @@
-import axios from "axios"
-
-const url = `${process.env.REACT_APP_HOST}user/sign-in`
+import classroomAxios from "../DataConnection/axiosConfig"
 
 export default async function sendUserInfoSignIn(userInfo) {
   try {
-    axios.interceptors.request.use((req) => {
-      req.headers.authorization = localStorage.token
-      return req
-    })
-
-    const response = await axios.post(url, {
+    const response = await classroomAxios.post("user/sign-in", {
       username: userInfo.username,
       password: userInfo.password,
     })

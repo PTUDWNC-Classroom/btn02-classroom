@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem"
 import Menu from "@mui/material/Menu"
 import CircularProgress from "@mui/material/CircularProgress"
 
-import axios from "axios"
+import classroomAxios from "../../Components/DataConnection/axiosConfig"
 import ClassItem from "../../Components/Class/ClassItem"
 import { ClassroomContext } from "../../context/ClassroomContext"
 
@@ -40,9 +40,7 @@ const ClassList = ({ newClassId }) => {
   useEffect(() => {
     const getClassList = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_HOST}classes/class-list`
-        )
+        const response = await classroomAxios.get(`classes/class-list`)
 
         if (response) {
           setIsLoaded(true)
@@ -59,6 +57,10 @@ const ClassList = ({ newClassId }) => {
     getClassList()
     // eslint-disable-next-line
   }, [newClassId, _id])
+
+  useEffect(() => {
+    document.title = "Classroom"
+  }, [])
 
   if (error) {
     return (

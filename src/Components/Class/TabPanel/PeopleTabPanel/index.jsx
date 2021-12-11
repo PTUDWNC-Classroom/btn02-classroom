@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import axios from "axios"
+import classroomAxios from "../../../DataConnection/axiosConfig"
 import { useLocation } from "react-router"
 
 import {
@@ -126,8 +126,8 @@ export default function PeopleTabPanel({ value, index }) {
   useEffect(() => {
     const getTeacherList = async (classId) => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_HOST}classes/teachers-of-class/${classId}`
+        const response = await classroomAxios.get(
+          `classes/teachers-of-class/${classId}`
         )
 
         setTeacherList(response.data)
@@ -141,8 +141,8 @@ export default function PeopleTabPanel({ value, index }) {
 
     const getStudentList = async (classId) => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_HOST}classes/students-of-class/${classId}`
+        const response = await classroomAxios.get(
+          `classes/students-of-class/${classId}`
         )
 
         setStudentList(response.data)

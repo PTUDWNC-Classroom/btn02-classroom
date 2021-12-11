@@ -20,7 +20,7 @@ function SocialLogout() {
     <div>
       <GoogleLogout
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Log Out Google"
+        buttonText="Log out Google"
         onLogoutSuccess={onSuccess}
       ></GoogleLogout>
     </div>

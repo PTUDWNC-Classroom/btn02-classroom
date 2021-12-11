@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid"
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import { Button, Paper, Stack, TextField } from "@mui/material"
 import { Add, Delete, Save } from "@mui/icons-material"
-import axios from "axios"
+import classroomAxios from "../../../DataConnection/axiosConfig"
 
 export function GradeAssignmentCard({
   _id,
@@ -32,8 +32,8 @@ export function GradeAssignmentCard({
     // theo đường dẫn /assignment/updateAssignment
     const UpdateAssignment = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_HOST}assignment/updateAssignment`,
+        const response = await classroomAxios.post(
+          `assignment/updateAssignment`,
           {
             classId: "vd",
             _id: _id,
@@ -61,8 +61,8 @@ export function GradeAssignmentCard({
     // theo đường dẫn /assignment/deleteAssignment
     const DeleteAssignment = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_HOST}assignment/deleteAssignment`,
+        const response = await classroomAxios.post(
+          `assignment/deleteAssignment`,
           {
             classId: "vd",
             _id: _id,
@@ -167,14 +167,11 @@ export function AddGradeAssignmentCard({ setOpen, classId }) {
     // đường dẫn /assignment/addAssignment
     const AddAssignment = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_HOST}assignment/addAssignment`,
-          {
-            classId: classId,
-            gradeTitle: gradeTitle,
-            gradeDetail: gradeDetail,
-          }
-        )
+        const response = await classroomAxios.post(`assignment/addAssignment`, {
+          classId: classId,
+          gradeTitle: gradeTitle,
+          gradeDetail: gradeDetail,
+        })
         if (response) {
           setOpen(true)
           setGradeTitle("")

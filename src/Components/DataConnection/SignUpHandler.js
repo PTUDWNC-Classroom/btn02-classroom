@@ -1,4 +1,4 @@
-import axios from "axios"
+import classroomAxios from "../DataConnection/axiosConfig"
 
 const url = `${process.env.REACT_APP_HOST}user/sign-up`
 const url1 = `${process.env.REACT_APP_HOST}user/valid-email`
@@ -7,8 +7,7 @@ const url1 = `${process.env.REACT_APP_HOST}user/valid-email`
 export default async function sendUserInfoSignUp(userInfo) {
   //console.log(userInfo);
   try {
-    //const response = await axios.get(`${process.env.REACT_APP_HOST}classes`);
-    const response = await axios.post(url, {
+    const response = await classroomAxios.post(url, {
       email: userInfo.email,
       password: userInfo.password,
       username: userInfo.username,
@@ -23,12 +22,9 @@ export default async function sendUserInfoSignUp(userInfo) {
 export async function sendUserInfoSocial(userInfo) {
   try {
     //sent idToken to get user info and JWT
-    const response = await axios.post(
-      `${process.env.REACT_APP_HOST}user/login-social`,
-      {
-        idToken: userInfo.idToken,
-      }
-    )
+    const response = await classroomAxios.post(`user/login-social`, {
+      idToken: userInfo.idToken,
+    })
 
     return response.data
   } catch (error) {
@@ -40,8 +36,7 @@ export async function sendUserInfoSocial(userInfo) {
 export async function sendOtpValidEmail(OTP, userInfo) {
   // console.log(OTP);
   try {
-    //const response = await axios.get(`${process.env.REACT_APP_HOST}classes`);
-    const response = await axios.post(url1, {
+    const response = await classroomAxios.post(url1, {
       OTP: OTP,
       email: userInfo.email,
       password: userInfo.password,

@@ -11,7 +11,7 @@ import { useTheme } from "@mui/material/styles"
 import PropTypes from "prop-types"
 import useScrollTrigger from "@mui/material/useScrollTrigger"
 import Slide from "@mui/material/Slide"
-import axios from "axios"
+import classroomAxios from "../DataConnection/axiosConfig"
 
 import { useLocation } from "react-router-dom"
 
@@ -94,9 +94,7 @@ export default function MenuAppBar({ handleRender }) {
   useEffect(() => {
     const getClassList = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_HOST}classes/class-list`
-        )
+        const response = await classroomAxios.get(`classes/class-list`)
 
         updateClassList(response.data)
       } catch (error) {
@@ -106,7 +104,7 @@ export default function MenuAppBar({ handleRender }) {
 
     const getUser = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_HOST}user`)
+        const response = await classroomAxios.get(`user`)
         login(response.data)
       } catch (error) {
         console.error(error)

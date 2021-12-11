@@ -60,6 +60,10 @@ export default function SignIn() {
       localStorage.setItem("isLogin", JSON.stringify(user))
       alert("Đăng nhập thành công !!!")
       localStorage.setItem("token", `Bearer  ${user.token}`)
+
+      // Dispatch "local-storage" event to call
+      window.dispatchEvent(new Event("local-storage"))
+
       login(user.user)
 
       if (localStorage.previousLocation) {

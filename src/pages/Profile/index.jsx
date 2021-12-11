@@ -9,7 +9,7 @@ import {
   ListItemText,
 } from "@mui/material"
 import { styled } from "@mui/system"
-import axios from "axios"
+import classroomAxios from "../../Components/DataConnection/axiosConfig"
 
 import StudentIDListItem from "../../Components/User/StudentIDListItem"
 import { ClassroomContext } from "../../context/ClassroomContext"
@@ -34,13 +34,10 @@ export default function Profile() {
   const handleAddStudentId = async () => {
     if (studentId) {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_HOST}user/add-student-id`,
-          {
-            userId: user._id,
-            studentId: studentId,
-          }
-        )
+        const response = await classroomAxios.post(`user/add-student-id`, {
+          userId: user._id,
+          studentId: studentId,
+        })
 
         if (response) {
           localStorage.setItem("isSocialLogin", JSON.stringify(response.data))
