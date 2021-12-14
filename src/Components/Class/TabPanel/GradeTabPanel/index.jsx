@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
 import TabPanel from "..";
 import AssignmentStruct from "./AssignmentStruct";
+import ManageBoard from "./ManageBoard";
 
 function AssignmentTabPanel(props) {
     const { children, valueAssignment, index, ...other } = props;
@@ -67,7 +68,7 @@ export default function GradeTabPanel({ value, index }) {
                         </Container>
                     </AssignmentTabPanel>
                     <AssignmentTabPanel valueAssignment={valueAssignment} index={1}>
-                        Hello
+                        <ManageBoard/>
                     </AssignmentTabPanel>
                 </Box>
             </TabPanel>
