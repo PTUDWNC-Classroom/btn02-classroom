@@ -71,7 +71,7 @@ HideOnScroll.propTypes = {
   children: PropTypes.element.isRequired,
 }
 
-export default function MenuAppBar({ handleRender }) {
+export default function MenuAppBar() {
   const [openDrawer, setOpenDrawer] = useState(false)
   let location = useLocation()
   const theme = useTheme()
@@ -141,7 +141,7 @@ export default function MenuAppBar({ handleRender }) {
                 handleClickOpen={handleClickOpen}
               />
               <MainAppBar path={location.pathname} />
-              <CreateClassButton handleRender={handleRender} />
+              <CreateClassButton />
               <AccountUser />
             </Toolbar>
             <Grid

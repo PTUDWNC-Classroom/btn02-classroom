@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import { Redirect, Switch } from "react-router"
 import { styled } from "@mui/system"
@@ -29,8 +29,6 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 // }
 
 function App() {
-  const [newClassId, setNewClassId] = useState("")
-
   useEffect(() => {
     /*
     setToken function will be called when local-storage event is dispatched when user logs in
@@ -46,17 +44,15 @@ function App() {
     <Router>
       <ClassroomContextProvider>
         <TabsProvider>
-          <MenuAppBar handleRender={setNewClassId} />
+          <MenuAppBar />
           <StyledContainer maxWidth="xl">
             <Switch>
               <Route
                 exact
                 path="/"
                 render={() => {
-                  if (localStorage.isSocialLogin) {
-                    return <ClassList newClassId={newClassId} />
-                  } else if (localStorage.isLogin) {
-                    return <ClassList newClassId={newClassId} />
+                  if (localStorage.isSocialLogin || localStorage.isLogin) {
+                    return <ClassList />
                   } else {
                     return <Redirect to="/sign-in" />
                   }

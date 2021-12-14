@@ -30,12 +30,12 @@ const AddIconButton = styled(IconButton)`
   }
 `
 
-export default function CreateClassButton({ handleRender }) {
+export default function CreateClassButton() {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [openCreateClass, setOpenCreateClass] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
-  const { user } = useContext(ClassroomContext)
+  const { updateClassList } = useContext(ClassroomContext)
 
   //change user
 
@@ -85,10 +85,9 @@ export default function CreateClassButton({ handleRender }) {
         section: data.section,
         subject: data.subject,
         room: data.room,
-        _id: user._id,
       })
 
-      handleRender(response.data)
+      updateClassList(response.data)
       setError(null)
       setLoading(false)
       handleCloseCreateClass()

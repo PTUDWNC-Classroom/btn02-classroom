@@ -9,26 +9,12 @@ import classroomAxios from "../../Components/DataConnection/axiosConfig"
 import ClassItem from "../../Components/Class/ClassItem"
 import { ClassroomContext } from "../../context/ClassroomContext"
 
-const ClassList = ({ newClassId }) => {
+const ClassList = () => {
   const [error, setError] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null)
   const { classList, updateClassList } = useContext(ClassroomContext)
 
-  let _id = null
-  let user = null
-  if (localStorage.isSocialLogin) {
-    //console.log("GET localStorage SOCIAL LOGIN CLASS LIST")
-    //console.log(JSON.parse(localStorage.isSocialLogin))
-    user = JSON.parse(localStorage.isSocialLogin)
-    _id = user._id
-  } else if (localStorage.isLogin) {
-    //console.log("GET localStorage LOGIN CLASS LIST")
-    //console.log(JSON.parse(localStorage.isLogin))
-    user = JSON.parse(localStorage.isLogin)
-    //console.log(user);
-    _id = user._id
-  }
   const handleClose = () => {
     setAnchorEl(null)
   }
@@ -56,7 +42,7 @@ const ClassList = ({ newClassId }) => {
 
     getClassList()
     // eslint-disable-next-line
-  }, [newClassId, _id])
+  }, [])
 
   useEffect(() => {
     document.title = "Classroom"
