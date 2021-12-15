@@ -78,50 +78,48 @@ export default function NavigationDrawer({ open, handleClickOpen }) {
   }
 
   return (
-    <div>
-      <React.Fragment>
-        <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
-          <Box
-            sx={{ width: 300 }}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-          >
-            <List>
-              <ListItem button onClick={() => handleRedirectToClassList()}>
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Classes "} />
-              </ListItem>
-            </List>
-            <Divider />
-            <List>
-              <ListSubheader component="div" id="enrolled-class-list-subheader">
-                Enrolled
-              </ListSubheader>
-              {classList.length > 0 &&
-                classList.map((item, index) => (
-                  <ClassListItem
-                    key={index}
-                    id={item._id}
-                    className={item.className}
-                    section={item.section}
-                  />
-                ))}
-            </List>
-            <Divider />
-            <List>
-              <ListItem button>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Setting"} />
-              </ListItem>
-            </List>
-          </Box>
-        </Drawer>
-      </React.Fragment>
-    </div>
+    <React.Fragment>
+      <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
+        <Box
+          sx={{ width: 300 }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <List>
+            <ListItem button onClick={() => handleRedirectToClassList()}>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Classes "} />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListSubheader component="div" id="enrolled-class-list-subheader">
+              Enrolled
+            </ListSubheader>
+            {classList.length > 0 &&
+              classList.map((item, index) => (
+                <ClassListItem
+                  key={index}
+                  id={item._id}
+                  className={item.className}
+                  section={item.section}
+                />
+              ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Setting"} />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+    </React.Fragment>
   )
 }

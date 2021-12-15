@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useContext } from "react"
 import classroomAxios from "../../../DataConnection/axiosConfig"
 import { Grid, Paper, Typography } from "@mui/material"
 import { styled } from "@mui/system"
 import { grey } from "@mui/material/colors"
 import { useLocation } from "react-router"
+import { tabsContext } from "../../../../context/TabsContext"
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -11,7 +12,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }))
 
 export default function GradeStruct() {
-  const [gradeStruct, setGradeStruct] = useState([])
+  const { gradeStruct, updateGradeStruct } = useContext(tabsContext)
   const location = useLocation()
   const classId = location.pathname.split("/")[2]
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function GradeStruct() {
 
         if (res) {
           //console.log(res.data)
-          setGradeStruct(res.data)
+          updateGradeStruct(res.data)
         }
       } catch (error) {
         console.error(error)
@@ -31,6 +32,7 @@ export default function GradeStruct() {
     }
 
     getGradeStruct()
+    // eslint-disable-next-line
   }, [classId])
 
   return (
@@ -38,7 +40,7 @@ export default function GradeStruct() {
       <Grid container direction="column" justifyContent="center">
         <Grid item xs={12}>
           <Typography variant="body1">
-            <b>Grade Struct</b>
+            <b>Grade Structure</b>
           </Typography>
         </Grid>
         <Grid item xs={12}>

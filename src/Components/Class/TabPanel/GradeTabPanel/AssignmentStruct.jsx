@@ -1,5 +1,5 @@
 //import '../App.css';
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import Box from "@mui/material/Box"
@@ -11,16 +11,16 @@ import {
 } from "./GradeAssignmentCard"
 import classroomAxios from "../../../DataConnection/axiosConfig"
 import { useLocation } from "react-router"
+import { tabsContext } from "../../../../context/TabsContext"
 
 export default function AssignmentStruct() {
   //const [characters, updateCharacters] = useState(finalSpaceCharacters);
-  const [characters, updateCharacters] = useState([])
+  // const [characters, updateCharacters] = useState([])
   const [open, setOpen] = useState(false)
   const location = useLocation()
   // Lấy classId từ địa chỉ
   const classId = location.pathname.split("/")[2]
-  //console.log(classId);
-
+  const { gradeStruct, updateGradeStruct } = useContext(tabsContext)
   useEffect(() => {
     // Nhận dữ liệu từ GetGradeAssignment.js
     const GradeAssignmentData = async () => {
@@ -40,7 +40,7 @@ export default function AssignmentStruct() {
         if (response) {
           // Trả dữ liệu đã sắp xếp
           setOpen(false)
-          updateCharacters(response.data)
+          updateGradeStruct(response.data)
         }
       } catch (error) {
         console.error(error)
@@ -50,6 +50,8 @@ export default function AssignmentStruct() {
     GradeAssignmentData()
 
     //console.log("update")
+
+    // eslint-disable-next-line
   }, [open, classId])
 
   const handleUpdate = async (sourceId, sourceIndex, desId, desIndex) => {
@@ -87,29 +89,30 @@ export default function AssignmentStruct() {
     //console.log(characters[result.source.index]);
     if (!result.destination) return
 
-    const items = Array.from(characters)
+    const items = Array.from(gradeStruct)
     const [reorderedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItem)
 
-    updateCharacters(items)
+    updateGradeStruct(items)
 
     handleUpdate(
-      characters[result.source.index]._id,
-      characters[result.source.index].indexAssignment,
-      characters[result.destination.index]._id,
-      characters[result.destination.index].indexAssignment
+      gradeStruct[result.source.index]._id,
+      gradeStruct[result.source.index].indexAssignment,
+      gradeStruct[result.destination.index]._id,
+      gradeStruct[result.destination.index].indexAssignment
     )
   }
 
   function handleDisable(_id) {
-    let x = characters.map((item) => {
+    let x = gradeStruct.map((item) => {
       if (item._id === _id) {
         item.disableState = !item.disableState
       }
       return item
     })
     //console.log(x)
-    updateCharacters(x)
+
+    updateGradeStruct(x)
   }
 
   return (
@@ -119,8 +122,8 @@ export default function AssignmentStruct() {
           <h1>Grade Assignment</h1>
           <h3>Overview</h3>
 
-          {characters.length !== 0
-            ? characters.map(({ gradeTitle, gradeDetail }, index) => {
+          {gradeStruct.length !== 0
+            ? gradeStruct.map(({ gradeTitle, gradeDetail }, index) => {
                 return (
                   <Typography
                     key={index}
@@ -142,8 +145,8 @@ export default function AssignmentStruct() {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {characters.length !== 0
-                  ? characters.map(
+                {gradeStruct.length !== 0
+                  ? gradeStruct.map(
                       (
                         { _id, gradeTitle, gradeDetail, disableState },
                         index

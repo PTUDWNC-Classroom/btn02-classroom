@@ -1,8 +1,15 @@
-import { createContext, useState } from "react"
+import { createContext, useState, useReducer } from "react"
+import actionType from "../constants/actionType"
+import tabsReducer from "../reducers/tabsReducer"
 
-export const tabsContext = createContext(null)
+const initialState = {
+  gradeStruct: [],
+}
+
+export const tabsContext = createContext(initialState)
 
 const TabsProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(tabsReducer, initialState)
   const [value, setValue] = useState(0)
   const [classDetails, setClassDetails] = useState({})
   const [role, setRole] = useState("")
@@ -15,6 +22,13 @@ const TabsProvider = ({ children }) => {
     setClassDetails(info)
   }
 
+  const updateGradeStruct = (data) => {
+    dispatch({
+      type: actionType.UPDATE_CLASS_DETAILS,
+      payload: data ? data : [],
+    })
+  }
+
   return (
     <tabsContext.Provider
       value={{
@@ -24,6 +38,8 @@ const TabsProvider = ({ children }) => {
         handleClassDetails,
         role,
         setRole,
+        gradeStruct: state.gradeStruct,
+        updateGradeStruct,
       }}
     >
       {children}

@@ -5,7 +5,6 @@ import { tabsContext } from "../../context/TabsContext"
 import PeopleTabPanel from "../../Components/Class/TabPanel/PeopleTabPanel"
 import GradeTabPanel from "../../Components/Class/TabPanel/GradeTabPanel"
 
-
 export default function ClassDetails() {
   const { value } = React.useContext(tabsContext)
   return (
