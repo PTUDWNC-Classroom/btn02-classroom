@@ -11,6 +11,7 @@ import { Grid, Button } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import FileUploadIcon from "@mui/icons-material/FileUpload"
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile"
 
 const Input = styled("input")({
   display: "none",
@@ -34,8 +35,10 @@ export default function ManageBoard() {
   const classId = location.pathname.split("/")[2]
 
   let csv = []
+  const studentListTemplate = [["StudentId", "Fullname"]]
 
-  const [data, setData] = useState([])
+  //const [data, setData] = useState([])
+  const [studentList, setStudentList] = useState([])
 
   useEffect(() => {
     const GradeAssignmentData = async () => {
@@ -48,44 +51,54 @@ export default function ManageBoard() {
         )
         if (response) {
           // Trả dữ liệu đã sắp xếp
-          setData(response.data)
+          //setData(response.data)
           updateGradeStruct(response.data)
         }
       } catch (error) {
         console.error(error)
       }
     }
-
+    console.log("assignment/getGradeAssignment")
     GradeAssignmentData()
 
     //console.log("update")
     // eslint-disable-next-line
-  }, [classId])
+  }, [])
 
-  if (data.length !== 0) {
-    // data.map để lấy dữ liệu chỉ còn 2 trường là gradeTitle và gradeDetail
-    /**
-     * result = [
-     *      {
-     *         gradeTitle:
-     *         gradeDetail:
-     *      }
-     * ]
-     */
-    let result = data.map(function (a) {
-      let item = {
-        gradeTitle: a.gradeTitle,
-        gradeDetail: a.gradeDetail,
-      }
-      return item
+  useEffect(() => {
+    // Call API to upload student list
+    console.log("upload student list", classId)
+    classroomAxios.post("assignment/upload-student-list", {
+      classId: classId,
+      data: studentList,
     })
+    console.log("upload-student-list")
+  }, [studentList])
 
-    //Khởi tạo và parses
-    const json2parse = new Parser()
-    csv = json2parse.parse(result)
+  // if (data.length !== 0) {
+  //   // data.map để lấy dữ liệu chỉ còn 2 trường là gradeTitle và gradeDetail
+  //   /**
+  //    * result = [
+  //    *      {
+  //    *         gradeTitle:
+  //    *         gradeDetail:
+  //    *      }
+  //    * ]
+  //    */
+  //   let result = data.map(function (a) {
+  //     let item = {
+  //       gradeTitle: a.gradeTitle,
+  //       gradeDetail: a.gradeDetail,
+  //     }
+  //     return item
+  //   })
 
-    console.log(csv)
-  }
+  //   //Khởi tạo và parses
+  //   const json2parse = new Parser()
+  //   csv = json2parse.parse(result)
+
+  //   console.log(csv)
+  // }
 
   return (
     <>
@@ -94,58 +107,80 @@ export default function ManageBoard() {
        * Lấy dữ liệu vừa parse được từ results.data
        */}
       <Grid container spacing={3} mb={3}>
-        <Grid item>
-          <label htmlFor="student-list-file">
-            <Input
-              accept=".csv,.xlsx,.xls"
-              id="student-list-file"
-              type="file"
-              onChange={(e) => {
-                const files = e.target.files
-                console.log(files)
-                if (files) {
-                  console.log(files[0])
-                  Papa.parse(files[0], {
-                    complete: function (results) {
-                      console.log("Finished:", results.data)
-                    },
-                  })
-                }
-              }}
-            />
-            <Button
-              variant="contained"
-              component="span"
-              startIcon={<FileUploadIcon />}
-            >
-              Upload student list
-            </Button>
-          </label>
-        </Grid>
+        <Grid container item spacing={3} xs={12} sm={12} md={10}>
+          <Grid item xs={12} sm={6} lg={4}>
+            <label htmlFor="student-list-file">
+              <Input
+                accept=".csv"
+                id="student-list-file"
+                type="file"
+                onChange={(e) => {
+                  const files = e.target.files
+                  console.log(files)
+                  if (files) {
+                    console.log(files[0])
+                    Papa.parse(files[0], {
+                      complete: function (results) {
+                        console.log("Finished:", results.data)
+                        setStudentList(results.data)
+                      },
+                    })
+                  }
+                }}
+              />
+              <Button
+                fullWidth
+                variant="contained"
+                component="span"
+                startIcon={<FileUploadIcon />}
+              >
+                Upload student list (.csv file)
+              </Button>
+            </label>
+          </Grid>
 
-        {/* Kiểm tra csv có dữ liệu không */}
-        {/* Lấy dữ liệu từ csv và do csv có kiểu a,b nên separator="," */}
-        {/* Đặc tên file */}
-        {csv.length !== 0 && (
-          <Grid item>
+          {/* Kiểm tra csv có dữ liệu không */}
+          {/* Lấy dữ liệu từ csv và do csv có kiểu a,b nên separator="," */}
+          {/* Đặc tên file */}
+          <Grid item xs={12} sm={6} lg={4}>
             <Button
+              fullWidth
               variant="contained"
               color="secondary"
               startIcon={<FileDownloadIcon />}
             >
               <StyledCSVLink
-                data={csv}
+                data={studentListTemplate}
                 separator=","
-                filename={"my-file.csv"}
+                filename={"student-list-template.csv"}
                 className="btn btn-primary"
                 target="_blank"
               >
-                Download
+                Download student list template
               </StyledCSVLink>
             </Button>
           </Grid>
-        )}
+        </Grid>
+        <Grid container item xs={12} sm={3} md={2}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="success"
+            startIcon={<InsertDriveFileIcon />}
+          >
+            <StyledCSVLink
+              data={csv}
+              separator=","
+              filename={"my-file.csv"}
+              className="btn btn-primary"
+              target="_blank"
+            >
+              Export
+            </StyledCSVLink>
+          </Button>
+        </Grid>
       </Grid>
+
       <GradeBoard />
     </>
   )

@@ -9,48 +9,14 @@ import { tabsContext } from "../../context/TabsContext"
 import { MenuItem, Menu, Divider } from "@mui/material"
 import { styled } from "@mui/system"
 import GradeBoardTableHead from "./GradeBoardTableHead"
+import InputTableCell from "./InputTableCell"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   border: "1px solid #ABB2B9",
 }))
 
-const AssignmentMenu = ({ handleClose, anchorEl }) => {
-  return (
-    <Menu
-      id="menu-class-setting"
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={Boolean(anchorEl)}
-      onClose={handleClose}
-    >
-      <MenuItem onClick={handleClose}>Upload</MenuItem>
-      <MenuItem onClick={handleClose}>Download</MenuItem>
-      <Divider />
-      <MenuItem onClick={handleClose}>Return all</MenuItem>
-    </Menu>
-  )
-}
-
 export default function GradeBoard() {
   const { gradeStruct } = useContext(tabsContext)
-  const [anchorEl, setAnchorEl] = useState(null)
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-
   // fake data
   //const realStudentList = []
   const realStudentList = [
@@ -71,11 +37,13 @@ export default function GradeBoard() {
     },
   ]
 
+  // Call API to get real student list if class owner pre-uploaded
+
   return (
     <>
       <TableContainer component={Paper} elevation={6}>
         <Table sx={{ minWidth: 650 }} aria-label="grade board">
-          <GradeBoardTableHead handleClick={handleClick} />
+          <GradeBoardTableHead />
           <TableBody>
             {realStudentList.length > 0 ? (
               realStudentList.map((student) => (
@@ -91,11 +59,13 @@ export default function GradeBoard() {
                   <StyledTableCell>{student.studentId}</StyledTableCell>
                   {gradeStruct.length > 0 &&
                     student.grades.map((grade, index) => (
-                      <StyledTableCell align="center" key={index}>
-                        {grade}
-                      </StyledTableCell>
+                      <InputTableCell
+                        align="center"
+                        key={index}
+                        initValue={grade}
+                      />
                     ))}
-                  <StyledTableCell align="center">0</StyledTableCell>
+                  <StyledTableCell>0</StyledTableCell>
                 </TableRow>
               ))
             ) : (
@@ -111,7 +81,6 @@ export default function GradeBoard() {
           </TableBody>
         </Table>
       </TableContainer>
-      <AssignmentMenu handleClose={handleClose} anchorEl={anchorEl} />
     </>
   )
 }
