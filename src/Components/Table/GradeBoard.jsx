@@ -72,6 +72,8 @@ export default function GradeBoard() {
                           align="center"
                           key={index2}
                           initValue={item.gradeList[index].grade}
+                          studentId={student}
+                          assignmentId={item._id}
                         />
                       ))}
                     <StyledTableCell>0</StyledTableCell>

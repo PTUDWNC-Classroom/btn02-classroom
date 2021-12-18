@@ -59,14 +59,7 @@ export default function Profile() {
                   </Grid>
                   <ListItemText />
                 </ListItem>
-                {/* <FormProvider {...methods}> */}
-                <StudentIDListItem
-                //handleChangeStudentId={handleChangeStudentId}
-                //handleAddStudentId={handleAddStudentId}
-                //edit={edit}
-                //handleEdit={handleEdit}
-                />
-                {/* </FormProvider> */}
+                <StudentIDListItem />
               </List>
             </Grid>
           </Grid>
