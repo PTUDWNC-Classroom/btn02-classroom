@@ -38,13 +38,9 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
       try {
         console.log("upload-assignment")
 
-        const res = await classroomAxios.post("assignment/upload-assignment", {
+        await classroomAxios.post("assignment/upload-assignment", {
           assignmentId: assignmentId,
           data: data,
-        })
-
-        res.then((result) => {
-          console.log(result)
         })
       } catch (error) {
         console.error(error)
@@ -91,6 +87,7 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
                   complete: function (results) {
                     handleUploadAssignment(results.data)
                   },
+                  skipEmptyLines: true,
                 })
               }
             }}
@@ -134,8 +131,8 @@ export default function GradeBoardTableHead() {
     <>
       <TableHead>
         <TableRow>
-          <FixedTableCell>Students</FixedTableCell>
           <FixedTableCell>Student Id</FixedTableCell>
+          <FixedTableCell>Fullname</FixedTableCell>
           {gradeStruct.length !== 0
             ? gradeStruct.map((grade, index) => (
                 <StyledTableCell key={index}>

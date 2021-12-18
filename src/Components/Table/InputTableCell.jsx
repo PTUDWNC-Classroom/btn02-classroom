@@ -50,6 +50,7 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
               aria-describedby="standard-grade-helper-text"
               inputProps={{
                 "aria-label": "grade",
+                style: { textAlign: "right" },
               }}
             />
           </FormControl>

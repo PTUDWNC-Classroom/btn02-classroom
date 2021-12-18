@@ -141,6 +141,7 @@ export default function ManageBoard() {
                         console.log("Finished:", results.data)
                         handleUploadStudentList(results.data)
                       },
+                      skipEmptyLines: true,
                     })
                   }
                 }}
