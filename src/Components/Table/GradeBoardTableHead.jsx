@@ -28,13 +28,34 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
   const assignmentTemplate = [["StudentId", "Grade"]]
   const [data, setData] = useState([])
 
+  const handleUploadAssignment = (value) => {
+    setData(value)
+  }
+
   useEffect(() => {
     // Call API to upload an assignment
-    classroomAxios.post("assignment/upload-assignment", {
-      assignmentId: assignmentId,
-      data: data,
-    })
-    console.log("upload-assignment")
+    const uploadAssignment = async () => {
+      try {
+        console.log("upload-assignment")
+
+        const res = await classroomAxios.post("assignment/upload-assignment", {
+          assignmentId: assignmentId,
+          data: data,
+        })
+
+        res.then((result) => {
+          console.log(result)
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    if (data.length !== 0) {
+      uploadAssignment()
+    }
+
+    // eslint-disable-next-line
   }, [data])
 
   return (
@@ -68,7 +89,7 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
                 console.log(files[0])
                 Papa.parse(files[0], {
                   complete: function (results) {
-                    setData(results.data)
+                    handleUploadAssignment(results.data)
                   },
                 })
               }

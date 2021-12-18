@@ -1,4 +1,3 @@
-import { Parser } from "json2csv"
 import { useContext, useEffect, useState } from "react"
 import { CSVLink } from "react-csv"
 import { useLocation } from "react-router"
@@ -29,6 +28,7 @@ const StyledCSVLink = styled(CSVLink)({
  */
 
 export default function ManageBoard() {
+  const [studentList, setStudentList] = useState([])
   const location = useLocation()
   const { updateGradeStruct } = useContext(tabsContext)
 
@@ -37,9 +37,11 @@ export default function ManageBoard() {
   let csv = []
   const studentListTemplate = [["StudentId", "Fullname"]]
 
-  //const [data, setData] = useState([])
-  const [studentList, setStudentList] = useState([])
+  const handleUploadStudentList = (value) => {
+    setStudentList(value)
+  }
 
+  // Update grade struct to render when the user change class
   useEffect(() => {
     const GradeAssignmentData = async () => {
       try {
@@ -51,7 +53,6 @@ export default function ManageBoard() {
         )
         if (response) {
           // Trả dữ liệu đã sắp xếp
-          //setData(response.data)
           updateGradeStruct(response.data)
         }
       } catch (error) {
@@ -63,16 +64,32 @@ export default function ManageBoard() {
 
     //console.log("update")
     // eslint-disable-next-line
-  }, [])
+  }, [classId])
 
   useEffect(() => {
     // Call API to upload student list
-    console.log("upload student list", classId)
-    classroomAxios.post("assignment/upload-student-list", {
-      classId: classId,
-      data: studentList,
-    })
-    console.log("upload-student-list")
+    const uploadStudentList = async () => {
+      try {
+        console.log("upload student list")
+
+        const res = classroomAxios.post("assignment/upload-student-list", {
+          classId: classId,
+          data: studentList,
+        })
+
+        res.then((result) => {
+          console.log(result)
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    if (studentList.length !== 0) {
+      uploadStudentList()
+    }
+
+    // eslint-disable-next-line
   }, [studentList])
 
   // if (data.length !== 0) {
@@ -122,7 +139,7 @@ export default function ManageBoard() {
                     Papa.parse(files[0], {
                       complete: function (results) {
                         console.log("Finished:", results.data)
-                        setStudentList(results.data)
+                        handleUploadStudentList(results.data)
                       },
                     })
                   }

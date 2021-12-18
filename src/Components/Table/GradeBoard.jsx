@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 import { tabsContext } from "../../context/TabsContext"
-import { MenuItem, Menu, Divider } from "@mui/material"
 import { styled } from "@mui/system"
 import GradeBoardTableHead from "./GradeBoardTableHead"
 import InputTableCell from "./InputTableCell"
@@ -38,7 +37,6 @@ export default function GradeBoard() {
   ]
 
   // Call API to get real student list if class owner pre-uploaded
-
   return (
     <>
       <TableContainer component={Paper} elevation={6}>
