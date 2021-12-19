@@ -8,6 +8,12 @@ export default function classroomReducer(state, action) {
         gradeStruct: [...action.payload],
       }
 
+    case actionType.UPDATE_TOTAL_GRADE_COL:
+      return {
+        ...state,
+        totalGradeCol: [...action.payload]
+      }
+      
     default:
       return state
   }

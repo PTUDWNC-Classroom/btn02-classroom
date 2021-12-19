@@ -61,7 +61,6 @@ export default function ManageBoard() {
     }
     console.log("assignment/getGradeAssignment")
     GradeAssignmentData()
-
     //console.log("update")
     // eslint-disable-next-line
   }, [classId])
@@ -202,26 +201,4 @@ export default function ManageBoard() {
       <GradeBoard />
     </>
   )
-
-  // return (
-  //     <div className="App">
-  //         <input
-  //             type="file"
-  //             accept=".csv,.xlsx,.xls"
-  //             onChange={(e) => {
-  //                 const files = e.target.files;
-  //                 console.log(files);
-  //                 if (files) {
-  //                     console.log(files[0]);
-  //                     Papa.parse(files[0], {
-  //                         complete: function (results) {
-  //                             console.log("Finished:", results.data);
-  //                         }
-  //                     }
-  //                     )
-  //                 }
-  //             }}
-  //         />
-  //     </div>
-  // );
 }

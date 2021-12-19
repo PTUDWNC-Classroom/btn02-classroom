@@ -116,7 +116,7 @@ export default function GradeBoardTableHead() {
   const { gradeStruct } = useContext(tabsContext)
   const [anchorEl, setAnchorEl] = useState(null)
   const [assignmentId, setAssignmentId] = useState("")
-  console.log(gradeStruct)
+  //console.log(gradeStruct)
   const handleClose = () => {
     setAnchorEl(null)
   }

@@ -4,6 +4,7 @@ import tabsReducer from "../reducers/tabsReducer"
 
 const initialState = {
   gradeStruct: [],
+  totalGradeCol: [],
 }
 
 export const tabsContext = createContext(initialState)
@@ -28,6 +29,13 @@ const TabsProvider = ({ children }) => {
       payload: data ? data : [],
     })
   }
+  
+  const updateTotalGradeCol = (data) => {
+    dispatch({
+      type: actionType.UPDATE_TOTAL_GRADE_COL,
+      payload: data
+    })
+  }
 
   return (
     <tabsContext.Provider
@@ -40,6 +48,8 @@ const TabsProvider = ({ children }) => {
         setRole,
         gradeStruct: state.gradeStruct,
         updateGradeStruct,
+        totalGradeCol: state.totalGradeCol,
+        updateTotalGradeCol
       }}
     >
       {children}
