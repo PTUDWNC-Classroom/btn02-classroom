@@ -30,6 +30,7 @@ const StyledCSVLink = styled(CSVLink)({
 
 export default function ManageBoard() {
   const [studentList, setStudentList] = useState([])
+  const [a,seta] = useState([]);
   const location = useLocation()
   const { updateGradeStruct } = useContext(tabsContext)
   const { gradeStruct } = useContext(tabsContext)
@@ -42,14 +43,21 @@ export default function ManageBoard() {
 
   const getDataExport = async() =>{
     const assignmentIdList = gradeStruct.map(val => val._id);
+    let res = [];
     await classroomAxios.post( `assignment/getDataToExport`,
     {
       classId: classId,
       assignmentIdList: assignmentIdList,
-    }).then((r) => seta(r.data))
+    }).then((r) => {
+      seta(r.data)
+      res = r.data;
+    })
     .catch((e) => console.log(e))
 
-    //csvLink.current.link.click();
+    if(res.length !== 0)
+    {
+      csvLink.current.link.click();
+    }
   }
 
   const handleUploadStudentList = (value) => {
@@ -130,7 +138,7 @@ export default function ManageBoard() {
 
   //   console.log(csv)
   // }
-  const [a,seta] = useState([]);
+  
   return (
     <>
       {/**
