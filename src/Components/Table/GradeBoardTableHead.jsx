@@ -9,6 +9,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { CSVLink } from "react-csv"
 import Papa from "papaparse"
 import classroomAxios from "../DataConnection/axiosConfig"
+import { useLocation } from "react-router"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   border: "1px solid #ABB2B9",
@@ -28,6 +29,9 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
   const assignmentTemplate = [["StudentId", "Grade"]]
   const [data, setData] = useState([])
 
+  const location = useLocation();
+  const classId = location.pathname.split("/")[2]
+
   const handleUploadAssignment = (value) => {
     setData(value)
   }
@@ -41,6 +45,7 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
         await classroomAxios.post("assignment/upload-assignment", {
           assignmentId: assignmentId,
           data: data,
+          classId: classId,
         })
       } catch (error) {
         console.error(error)
@@ -116,6 +121,7 @@ export default function GradeBoardTableHead() {
   const { gradeStruct } = useContext(tabsContext)
   const [anchorEl, setAnchorEl] = useState(null)
   const [assignmentId, setAssignmentId] = useState("")
+
   //console.log(gradeStruct)
   const handleClose = () => {
     setAnchorEl(null)

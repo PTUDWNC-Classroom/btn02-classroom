@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { CSVLink } from "react-csv"
 import { useLocation } from "react-router"
 import classroomAxios from "../../../DataConnection/axiosConfig"
@@ -11,6 +11,7 @@ import { styled } from "@mui/material/styles"
 import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import FileUploadIcon from "@mui/icons-material/FileUpload"
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile"
+
 
 const Input = styled("input")({
   display: "none",
@@ -31,11 +32,25 @@ export default function ManageBoard() {
   const [studentList, setStudentList] = useState([])
   const location = useLocation()
   const { updateGradeStruct } = useContext(tabsContext)
-
+  const { gradeStruct } = useContext(tabsContext)
+  const csvLink = useRef();
   const classId = location.pathname.split("/")[2]
 
-  let csv = []
+  //let csv = []
+  //console.log(gradeStruct[0].gradeTitle);
   const studentListTemplate = [["StudentId", "Fullname"]]
+
+  const getDataExport = async() =>{
+    const assignmentIdList = gradeStruct.map(val => val._id);
+    await classroomAxios.post( `assignment/getDataToExport`,
+    {
+      classId: classId,
+      assignmentIdList: assignmentIdList,
+    }).then((r) => seta(r.data))
+    .catch((e) => console.log(e))
+
+    //csvLink.current.link.click();
+  }
 
   const handleUploadStudentList = (value) => {
     setStudentList(value)
@@ -115,7 +130,7 @@ export default function ManageBoard() {
 
   //   console.log(csv)
   // }
-
+  const [a,seta] = useState([]);
   return (
     <>
       {/**
@@ -184,17 +199,18 @@ export default function ManageBoard() {
             variant="contained"
             color="success"
             startIcon={<InsertDriveFileIcon />}
+            onClick = {getDataExport}
           >
-            <StyledCSVLink
-              data={csv}
+            Export
+          </Button>
+          <StyledCSVLink
+              data={a}
               separator=","
-              filename={"my-file.csv"}
+              filename={"manageBoard.csv"}
               className="btn btn-primary"
               target="_blank"
-            >
-              Export
-            </StyledCSVLink>
-          </Button>
+              ref = {csvLink}
+            />
         </Grid>
       </Grid>
 
