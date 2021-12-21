@@ -31,9 +31,11 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
 
   const location = useLocation();
   const classId = location.pathname.split("/")[2]
+  const { countRerender} = useContext(tabsContext)
 
   const handleUploadAssignment = (value) => {
     setData(value)
+    countRerender()
   }
 
   useEffect(() => {
@@ -170,7 +172,7 @@ export default function GradeBoardTableHead() {
                 </StyledTableCell>
               ))
             : null}
-          <StyledTableCell>Total</StyledTableCell>
+          <StyledTableCell align="right">Total</StyledTableCell>
         </TableRow>
       </TableHead>
       {gradeStruct.length !== 0 ? (

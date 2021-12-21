@@ -5,6 +5,7 @@ import tabsReducer from "../reducers/tabsReducer"
 const initialState = {
   gradeStruct: [],
   totalGradeCol: [],
+  rerender: 0, // using rerender when uploading file
 }
 
 export const tabsContext = createContext(initialState)
@@ -25,17 +26,24 @@ const TabsProvider = ({ children }) => {
 
   const updateGradeStruct = (data) => {
     dispatch({
-      type: actionType.UPDATE_CLASS_DETAILS,
+      type: actionType.UPDATE_GRADE_STRUCT,
       payload: data ? data : [],
     })
   }
-  
+
   const updateTotalGradeCol = (data) => {
     dispatch({
       type: actionType.UPDATE_TOTAL_GRADE_COL,
       payload: data
     })
   }
+
+  const countRerender = () => {
+    dispatch({
+      type: actionType.COUNT_RERENDER,
+    })
+  }
+
 
   return (
     <tabsContext.Provider
@@ -49,7 +57,9 @@ const TabsProvider = ({ children }) => {
         gradeStruct: state.gradeStruct,
         updateGradeStruct,
         totalGradeCol: state.totalGradeCol,
-        updateTotalGradeCol
+        updateTotalGradeCol,
+        rerender: state.rerender,
+        countRerender
       }}
     >
       {children}

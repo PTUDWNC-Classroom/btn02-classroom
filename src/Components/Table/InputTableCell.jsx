@@ -14,38 +14,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   padding: 0,
 }))
 
-export default function InputTableCell({ studentId, assignmentId, initValue, pos }) {
+export default function InputTableCell({ studentId, assignmentId, initValue }) {
+  const { updateTotalGradeCol, classDetails, updateGradeStruct } = useContext(tabsContext)
   const [grade, setGrade] = useState(initValue)
-  const [isDisplayed, setIsDisplayed] = useState(isNaN(parseFloat(initValue)) ? false : true)
-  const [isNull, setIsNull] = useState(initValue === "" ? true : false)
   const [originalGrade, setOriginalGrade] = useState(initValue)
   const [showEdit, setShowEdit] = useState(false)
-  const { updateTotalGradeCol, classDetails } = useContext(tabsContext)
 
-  //console.log("render input cell")
   const handleChangeGrade = (e) => {
     setGrade(e.target.value)
-    if (e.target.value !== "") {
-      setIsNull(false)
-    } else {
-      setIsDisplayed(false)
-      setIsNull(true)
-    }
-  }
-
-  const handleMouseLeave = () => {
-    if (isNull) {
-      setIsDisplayed(false)
-    } else {
-      setIsDisplayed(true)
-      setGrade(originalGrade)
-    }
-    setShowEdit(false)
-  }
-
-  const handleMouseEnter = () => {
-    setIsDisplayed(true)
-    setShowEdit(true)
   }
 
   const handleSubmit = async (e) => {
@@ -55,16 +31,12 @@ export default function InputTableCell({ studentId, assignmentId, initValue, pos
       // validate
       setGrade("")
       value = ""
-      setIsNull(true)
-      setIsDisplayed(false)
+
     } else {
       setGrade(value)
-      setIsNull(false)
     }
 
-    if ("" === grade) {
-      setIsDisplayed(false)
-      setIsNull(true)
+    if ("" === grade || grade === originalGrade) {
       return
     }
 
@@ -79,10 +51,18 @@ export default function InputTableCell({ studentId, assignmentId, initValue, pos
         `assignment/total-grade-column/${classDetails._id}`
       )
 
-      //console.log(res.data)
-      updateTotalGradeCol(res.data)
 
-      if (value !== "") setIsDisplayed(true)
+      const response = await classroomAxios.post(
+        `assignment/getGradeAssignment`,
+        {
+          classId: classDetails._id,
+        }
+      )
+      if (response) {
+        updateGradeStruct(response.data)
+      }
+
+      updateTotalGradeCol(res.data)
 
       setOriginalGrade(value)
     } catch (error) {
@@ -90,78 +70,51 @@ export default function InputTableCell({ studentId, assignmentId, initValue, pos
     }
   }
 
-  if (isNaN(parseFloat(initValue))) {
-    return (
-      <StyledTableCell
-        onMouseEnter={() => handleMouseEnter()}
-        onMouseLeave={() => handleMouseLeave()}
-      >
-        {isDisplayed && (
-          <Grid container justifyContent="center" p="auto">
-            <Grid item>
-              <FormControl variant="standard" sx={{ width: "8rem" }}>
-                <Input
-                  value={grade}
-                  onChange={handleChangeGrade}
-                  id="standard-adornment-grade"
-                  //onBlur={handleSubmit}
-                  min="0"
-                  max="100"
-                  size="small"
-                  startAdornment={<InputAdornment position="start">
-                    <IconButton onClick={handleSubmit} color="success"><CheckIcon /></IconButton>
-                  </InputAdornment>}
-                  endAdornment={
-                    <InputAdornment position="end">/100</InputAdornment>
-                  }
-                  aria-describedby="standard-grade-helper-text"
-                  inputProps={{
-                    "aria-label": "grade",
-                    style: { textAlign: "right" },
-                    autoFocus: true,
-                    inputMode: 'numeric'
-                  }}
-                />
-              </FormControl>
-            </Grid>
-          </Grid>
-        )}
-      </StyledTableCell>
-    )
-  } else {
-    return (
-      <StyledTableCell
-        onMouseEnter={() => handleMouseEnter()}
-        onMouseLeave={() => handleMouseLeave()}
-      >
-        <Grid container justifyContent="center" p="auto">
-          <Grid item>
-            <FormControl variant="standard" sx={{ width: "8rem" }}>
-              <Input
-                value={grade}
-                onChange={handleChangeGrade}
-                id="standard-adornment-grade"
-                //onBlur={handleSubmit}
-                min="0"
-                max="100"
-                size="small"
-                startAdornment={<InputAdornment position="start">
-                  <IconButton onClick={handleSubmit}>{showEdit && <CheckIcon />}</IconButton>
-                </InputAdornment>}
-                endAdornment={
-                  <InputAdornment position="end">/100</InputAdornment>
-                }
-                aria-describedby="standard-grade-helper-text"
-                inputProps={{
-                  "aria-label": "grade",
-                  style: { textAlign: "right" },
-                  autoFocus: true,
-                }}
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-      </StyledTableCell>
-    )
+  const handleMouseLeave = () => {
+    setShowEdit(false)
   }
+
+  const handleMouseEnter = () => {
+    setShowEdit(true)
+  }
+
+  useEffect(() => {
+    setGrade(initValue)
+  }, [initValue])
+
+  return (
+    <StyledTableCell
+      onMouseEnter={() => handleMouseEnter()}
+      onMouseLeave={() => handleMouseLeave()}
+    >
+      <Grid container justifyContent="center" p="auto">
+        <Grid item >
+
+          <FormControl variant="standard" sx={{ width: "8rem" }}>
+            <Input
+              id="standard-adornment-grade"
+              //onBlur={handleSubmit}
+              min="0"
+              max="100"
+              size="small"
+              name="grade"
+              startAdornment={<InputAdornment position="start">
+                <IconButton onClick={handleSubmit}>{showEdit && <CheckIcon />}</IconButton>
+              </InputAdornment>}
+              endAdornment={
+                <InputAdornment position="end">/100</InputAdornment>
+              }
+              aria-describedby="standard-grade-helper-text"
+              inputProps={{
+                "aria-label": "grade",
+                style: { textAlign: "right" },
+                autoFocus: true,
+                value: `${grade}`,
+                onChange: handleChangeGrade
+              }}
+            />
+          </FormControl>
+        </Grid>
+      </Grid>
+    </StyledTableCell>)
 }

@@ -2,7 +2,7 @@ import actionType from "../constants/actionType"
 
 export default function classroomReducer(state, action) {
   switch (action.type) {
-    case actionType.UPDATE_CLASS_DETAILS:
+    case actionType.UPDATE_GRADE_STRUCT:
       return {
         ...state,
         gradeStruct: [...action.payload],
@@ -12,6 +12,12 @@ export default function classroomReducer(state, action) {
       return {
         ...state,
         totalGradeCol: [...action.payload]
+      }
+
+    case actionType.COUNT_RERENDER:
+      return {
+        ...state,
+        rerender: state.rerender + 1
       }
       
     default:

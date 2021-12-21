@@ -30,10 +30,9 @@ const StyledCSVLink = styled(CSVLink)({
 
 export default function ManageBoard() {
   const [studentList, setStudentList] = useState([])
-  const [a,seta] = useState([]);
+  const [a, seta] = useState([]);
   const location = useLocation()
-  const { updateGradeStruct } = useContext(tabsContext)
-  const { gradeStruct } = useContext(tabsContext)
+  const { gradeStruct, updateGradeStruct, countRerender, rerender } = useContext(tabsContext)
   const csvLink = useRef();
   const classId = location.pathname.split("/")[2]
 
@@ -41,27 +40,27 @@ export default function ManageBoard() {
   //console.log(gradeStruct[0].gradeTitle);
   const studentListTemplate = [["StudentId", "Fullname"]]
 
-  const getDataExport = async() =>{
+  const getDataExport = async () => {
     const assignmentIdList = gradeStruct.map(val => val._id);
     let res = [];
-    await classroomAxios.post( `assignment/getDataToExport`,
-    {
-      classId: classId,
-      assignmentIdList: assignmentIdList,
-    }).then((r) => {
-      seta(r.data)
-      res = r.data;
-    })
-    .catch((e) => console.log(e))
+    await classroomAxios.post(`assignment/getDataToExport`,
+      {
+        classId: classId,
+        assignmentIdList: assignmentIdList,
+      }).then((r) => {
+        seta(r.data)
+        res = r.data;
+      })
+      .catch((e) => console.log(e))
 
-    if(res.length !== 0)
-    {
+    if (res.length !== 0) {
       csvLink.current.link.click();
     }
   }
 
   const handleUploadStudentList = (value) => {
     setStudentList(value)
+    countRerender()
   }
 
   // Update grade struct to render when the user change class
@@ -86,7 +85,7 @@ export default function ManageBoard() {
     GradeAssignmentData()
     //console.log("update")
     // eslint-disable-next-line
-  }, [classId])
+  }, [classId, rerender])
 
   useEffect(() => {
     // Call API to upload student list
@@ -138,7 +137,7 @@ export default function ManageBoard() {
 
   //   console.log(csv)
   // }
-  
+
   return (
     <>
       {/**
@@ -207,18 +206,18 @@ export default function ManageBoard() {
             variant="contained"
             color="success"
             startIcon={<InsertDriveFileIcon />}
-            onClick = {getDataExport}
+            onClick={getDataExport}
           >
             Export
           </Button>
           <StyledCSVLink
-              data={a}
-              separator=","
-              filename={"manageBoard.csv"}
-              className="btn btn-primary"
-              target="_blank"
-              ref = {csvLink}
-            />
+            data={a}
+            separator=","
+            filename={"manageBoard.csv"}
+            className="btn btn-primary"
+            target="_blank"
+            ref={csvLink}
+          />
         </Grid>
       </Grid>
 

@@ -17,7 +17,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }))
 
 export default function GradeBoard() {
-  const { gradeStruct, classDetails, totalGradeCol, updateTotalGradeCol } = useContext(tabsContext)
+  const { gradeStruct, classDetails, totalGradeCol, updateTotalGradeCol, rerender } = useContext(tabsContext)
   const [realStudentList, setRealStudentList] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -36,10 +36,10 @@ export default function GradeBoard() {
     }
 
     getStudentList()
-  }, [classDetails])
+  }, [classDetails, rerender])
 
   useEffect(() => {
-    
+
     const getTotalGradeColumn = async () => {
       try {
         const res = await classroomAxios.get(
@@ -49,7 +49,6 @@ export default function GradeBoard() {
         //console.log(res.data)
         updateTotalGradeCol(res.data)
       } catch (error) {
-
         console.error(error)
       }
     }
@@ -57,7 +56,7 @@ export default function GradeBoard() {
     getTotalGradeColumn()
 
     // eslint-disable-next-line
-  }, [classDetails])
+  }, [classDetails, rerender, gradeStruct])
 
   return (
     <>
@@ -95,10 +94,10 @@ export default function GradeBoard() {
                           initValue={item.gradeList[index]?.grade}
                           studentId={student}
                           assignmentId={item._id}
-                          pos={index}
+                          pos={index2}
                         />
                       ))}
-                    <StyledTableCell>{totalGradeCol[index]}</StyledTableCell>
+                    <StyledTableCell align="right">{totalGradeCol[index]}</StyledTableCell>
                   </TableRow>
                 ))
               ) : (
