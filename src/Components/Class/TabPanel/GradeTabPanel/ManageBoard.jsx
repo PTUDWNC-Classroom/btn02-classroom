@@ -12,7 +12,6 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import FileUploadIcon from "@mui/icons-material/FileUpload"
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile"
 
-
 const Input = styled("input")({
   display: "none",
 })
@@ -30,10 +29,11 @@ const StyledCSVLink = styled(CSVLink)({
 
 export default function ManageBoard() {
   const [studentList, setStudentList] = useState([])
-  const [a, seta] = useState([]);
+  const [a, seta] = useState([])
   const location = useLocation()
-  const { gradeStruct, updateGradeStruct, countRerender, rerender } = useContext(tabsContext)
-  const csvLink = useRef();
+  const { gradeStruct, updateGradeStruct, countRerender, rerender } =
+    useContext(tabsContext)
+  const csvLink = useRef()
   const classId = location.pathname.split("/")[2]
 
   //let csv = []
@@ -41,20 +41,21 @@ export default function ManageBoard() {
   const studentListTemplate = [["StudentId", "Fullname"]]
 
   const getDataExport = async () => {
-    const assignmentIdList = gradeStruct.map(val => val._id);
-    let res = [];
-    await classroomAxios.post(`assignment/getDataToExport`,
-      {
+    const assignmentIdList = gradeStruct.map((val) => val._id)
+    let res = []
+    await classroomAxios
+      .post(`assignment/getDataToExport`, {
         classId: classId,
         assignmentIdList: assignmentIdList,
-      }).then((r) => {
+      })
+      .then((r) => {
         seta(r.data)
-        res = r.data;
+        res = r.data
       })
       .catch((e) => console.log(e))
 
     if (res.length !== 0) {
-      csvLink.current.link.click();
+      csvLink.current.link.click()
     }
   }
 
@@ -81,7 +82,7 @@ export default function ManageBoard() {
         console.error(error)
       }
     }
-    console.log("assignment/getGradeAssignment")
+    //console.log("assignment/getGradeAssignment")
     GradeAssignmentData()
     //console.log("update")
     // eslint-disable-next-line
@@ -91,16 +92,16 @@ export default function ManageBoard() {
     // Call API to upload student list
     const uploadStudentList = async () => {
       try {
-        console.log("upload student list")
+        //console.log("upload student list")
 
-        const res = classroomAxios.post("assignment/upload-student-list", {
+        await classroomAxios.post("assignment/upload-student-list", {
           classId: classId,
           data: studentList,
         })
 
-        res.then((result) => {
-          console.log(result)
-        })
+        // res.then((result) => {
+        //   console.log(result)
+        // })
       } catch (error) {
         console.error(error)
       }
@@ -154,12 +155,12 @@ export default function ManageBoard() {
                 type="file"
                 onChange={(e) => {
                   const files = e.target.files
-                  console.log(files)
+                  //console.log(files)
                   if (files) {
-                    console.log(files[0])
+                    //console.log(files[0])
                     Papa.parse(files[0], {
                       complete: function (results) {
-                        console.log("Finished:", results.data)
+                        //console.log("Finished:", results.data)
                         handleUploadStudentList(results.data)
                       },
                       skipEmptyLines: true,

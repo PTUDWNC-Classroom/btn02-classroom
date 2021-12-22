@@ -67,7 +67,7 @@ export default function SignIn() {
       login(user.user)
 
       if (localStorage.previousLocation) {
-        console.log(localStorage.previousLocation)
+        //console.log(localStorage.previousLocation)
       } else {
         history.replace("/")
       }
@@ -158,7 +158,6 @@ export default function SignIn() {
                   href="#"
                   variant="body2"
                   onClick={() => {
-                    console.log("set openpopup")
                     setOpenPopup(true)
                   }}
                 >

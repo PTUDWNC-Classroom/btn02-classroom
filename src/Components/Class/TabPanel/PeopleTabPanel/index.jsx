@@ -73,7 +73,7 @@ export default function PeopleTabPanel({ value, index }) {
     //console.log("error")
   }
   const handleSend = async () => {
-    console.log(itemInput)
+    //console.log(itemInput)
     //e.preventDefault()
     //console.log( itemInput === null);
 
@@ -83,7 +83,7 @@ export default function PeopleTabPanel({ value, index }) {
     //console.log(itemInput);
     if (!itemInput.match(/.+@.+/) === false) {
       let url = location.pathname.split("/")
-      console.log(url[url.length - 1])
+      //console.log(url[url.length - 1])
       //sendMailInviteLink
       const sended = await sendInviteLink(
         url[url.length - 1],

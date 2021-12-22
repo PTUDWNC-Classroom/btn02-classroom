@@ -14,22 +14,11 @@ import { useHistory } from "react-router"
 import addStudentIntoClass, {
   addTeacherIntoClass,
 } from "../../Components/DataConnection/JoinClass"
-// const StyledLinkRR = styled(LinkRR)(({ theme }) => ({
-//   textOverflow: "ellipsis",
-//   overflow: "hidden",
-//   paddingTop: 0.5,
-//   color: grey[50],
-//   textDecoration: "none",
-//   "&:hover": {
-//     textDecoration: "underline",
-//   },
-// }))
-//import Grid from '@mui/icons-material/Grid3x3Sharp'
 
 export default function ClassJoin() {
   const history = useHistory()
   let location = useLocation()
-  console.log(location.pathname)
+  //console.log(location.pathname)
   const str = location.pathname.split("/")
 
   const id = str[str.length - 1]

@@ -29,9 +29,9 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
   const assignmentTemplate = [["StudentId", "Grade"]]
   const [data, setData] = useState([])
 
-  const location = useLocation();
+  const location = useLocation()
   const classId = location.pathname.split("/")[2]
-  const { countRerender} = useContext(tabsContext)
+  const { countRerender } = useContext(tabsContext)
 
   const handleUploadAssignment = (value) => {
     setData(value)
@@ -42,7 +42,7 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
     // Call API to upload an assignment
     const uploadAssignment = async () => {
       try {
-        console.log("upload-assignment")
+        //console.log("upload-assignment")
 
         await classroomAxios.post("assignment/upload-assignment", {
           assignmentId: assignmentId,
@@ -87,9 +87,9 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
             type="file"
             onChange={(e) => {
               const files = e.target.files
-              console.log(files)
+              //console.log(files)
               if (files) {
-                console.log(files[0])
+                //console.log(files[0])
                 Papa.parse(files[0], {
                   complete: function (results) {
                     handleUploadAssignment(results.data)
@@ -130,7 +130,7 @@ export default function GradeBoardTableHead() {
   }
 
   const handleClick = (event, id) => {
-    console.log(id)
+    // console.log(id)
     setAssignmentId(id)
     setAnchorEl(event.currentTarget)
   }

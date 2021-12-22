@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react"
 import InputAdornment from "@mui/material/InputAdornment"
 import FormControl from "@mui/material/FormControl"
 import { Grid, TableCell, Input, IconButton } from "@mui/material"
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from "@mui/icons-material/Check"
 import { styled } from "@mui/system"
 import classroomAxios from "../DataConnection/axiosConfig"
 import { tabsContext } from "../../context/TabsContext"
@@ -15,7 +15,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }))
 
 export default function InputTableCell({ studentId, assignmentId, initValue }) {
-  const { updateTotalGradeCol, classDetails, updateGradeStruct } = useContext(tabsContext)
+  const { updateTotalGradeCol, classDetails, updateGradeStruct } =
+    useContext(tabsContext)
   const [grade, setGrade] = useState(initValue)
   const [originalGrade, setOriginalGrade] = useState(initValue)
   const [showEdit, setShowEdit] = useState(false)
@@ -31,7 +32,6 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
       // validate
       setGrade("")
       value = ""
-
     } else {
       setGrade(value)
     }
@@ -50,7 +50,6 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
       const res = await classroomAxios.get(
         `assignment/total-grade-column/${classDetails._id}`
       )
-
 
       const response = await classroomAxios.post(
         `assignment/getGradeAssignment`,
@@ -72,6 +71,7 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
 
   const handleMouseLeave = () => {
     setShowEdit(false)
+    setGrade(originalGrade)
   }
 
   const handleMouseEnter = () => {
@@ -88,8 +88,7 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
       onMouseLeave={() => handleMouseLeave()}
     >
       <Grid container justifyContent="center" p="auto">
-        <Grid item >
-
+        <Grid item>
           <FormControl variant="standard" sx={{ width: "8rem" }}>
             <Input
               id="standard-adornment-grade"
@@ -98,9 +97,13 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
               max="100"
               size="small"
               name="grade"
-              startAdornment={<InputAdornment position="start">
-                <IconButton onClick={handleSubmit}>{showEdit && <CheckIcon />}</IconButton>
-              </InputAdornment>}
+              startAdornment={
+                <InputAdornment position="start">
+                  <IconButton onClick={handleSubmit}>
+                    {showEdit && <CheckIcon />}
+                  </IconButton>
+                </InputAdornment>
+              }
               endAdornment={
                 <InputAdornment position="end">/100</InputAdornment>
               }
@@ -110,11 +113,12 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
                 style: { textAlign: "right" },
                 autoFocus: true,
                 value: `${grade}`,
-                onChange: handleChangeGrade
+                onChange: handleChangeGrade,
               }}
             />
           </FormControl>
         </Grid>
       </Grid>
-    </StyledTableCell>)
+    </StyledTableCell>
+  )
 }

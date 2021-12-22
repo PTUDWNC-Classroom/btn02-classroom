@@ -71,7 +71,7 @@ export default function StudentIDListItem({ studentId, handleAddStudentId }) {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data)
+      //console.log(data)
       const response = await classroomAxios.post(`user/add-student-id`, {
         //userId: user._id,
         studentId: data.studentId,
