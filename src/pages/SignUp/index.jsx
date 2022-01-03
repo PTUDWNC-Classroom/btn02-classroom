@@ -96,9 +96,9 @@ export default function SignUp() {
     setErrorPassword(password !== "" ? false : true)
 
     if (
-      errorEmail === false &&
-      errorUserName === false &&
-      errorPassword === false
+      (!email.match(/.+@.+/)) === false &&
+      ((username !== "") === true) &&
+      ((password !== "") === true)
     ) {
       return false
     }

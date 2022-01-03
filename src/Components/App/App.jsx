@@ -78,7 +78,7 @@ function App() {
               </Route>
               <Route
                 exact
-                path="/join-Student/*"
+                path="/join-student/*"
                 render={() => {
                   if (localStorage.isSocialLogin) {
                     return <ClassJoin />
