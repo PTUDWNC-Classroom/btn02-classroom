@@ -97,7 +97,11 @@ export default function GradeBoard() {
                           pos={index2}
                         />
                       ))}
-                    <StyledTableCell align="right">{totalGradeCol[index]}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      {(isNaN(totalGradeCol[index]) || totalGradeCol[index] === "") ? ""
+                        : parseFloat(totalGradeCol[index]).toFixed(2)
+                      }
+                    </StyledTableCell>
                   </TableRow>
                 ))
               ) : (

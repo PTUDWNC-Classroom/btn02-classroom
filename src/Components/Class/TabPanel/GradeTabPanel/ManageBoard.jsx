@@ -109,6 +109,7 @@ export default function ManageBoard() {
 
     if (studentList.length !== 0) {
       uploadStudentList()
+      countRerender()
     }
 
     // eslint-disable-next-line

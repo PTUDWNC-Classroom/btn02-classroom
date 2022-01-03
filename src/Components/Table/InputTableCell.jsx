@@ -17,10 +17,19 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 export default function InputTableCell({ studentId, assignmentId, initValue }) {
   const { updateTotalGradeCol, classDetails, updateGradeStruct } =
     useContext(tabsContext)
-  const [grade, setGrade] = useState(initValue)
-  const [originalGrade, setOriginalGrade] = useState(initValue)
+
+  let formatInitVal = 0
+
+  if (isNaN(initValue) || initValue === "") {
+    formatInitVal = ""
+  } else {
+    formatInitVal = parseFloat(initValue).toFixed(2)
+  }
+
+  const [grade, setGrade] = useState(formatInitVal)
+  const [originalGrade, setOriginalGrade] = useState(formatInitVal)
   const [showEdit, setShowEdit] = useState(false)
-  
+
   const handleChangeGrade = (e) => {
     setGrade(e.target.value)
   }
@@ -41,10 +50,12 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
     }
 
     try {
+      const formatGrade = value.toFixed(2)
+
       await classroomAxios.put("assignment/update-grade", {
         studentId: studentId,
         assignmentId: assignmentId,
-        grade: value,
+        grade: formatGrade,
       })
 
       const res = await classroomAxios.get(
@@ -63,7 +74,7 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
 
       updateTotalGradeCol(res.data)
 
-      setOriginalGrade(value)
+      setOriginalGrade(formatGrade)
     } catch (error) {
       console.error(error)
     }
@@ -80,7 +91,14 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
   }
 
   useEffect(() => {
-    setGrade(initValue)
+    if (isNaN(initValue) || initValue === "") {
+      setGrade("")
+      setOriginalGrade("")
+    } else {
+      const formatInitVal = parseFloat(initValue).toFixed(2)
+      setGrade(formatInitVal)
+      setOriginalGrade(formatInitVal)
+    }
   }, [initValue])
 
   return (
