@@ -15,6 +15,7 @@ export default function GradeStruct() {
   const { gradeStruct, updateGradeStruct } = useContext(tabsContext)
   const location = useLocation()
   const classId = location.pathname.split("/")[2]
+  let assignmentTotal = 0
   useEffect(() => {
     const getGradeStruct = async () => {
       try {
@@ -38,7 +39,7 @@ export default function GradeStruct() {
   return (
     <StyledPaper elevation={0}>
       <Grid container direction="column" justifyContent="center">
-        <Grid item xs={12}>
+        <Grid item xs={12} marginBottom={2}>
           <Typography variant="body1">
             <b>Grade Structure</b>
           </Typography>
@@ -46,14 +47,19 @@ export default function GradeStruct() {
         <Grid item xs={12}>
           {gradeStruct.length !== 0
             ? gradeStruct.map(({ gradeTitle, gradeDetail }, index) => {
-                return (
-                  <Typography key={index} variant="body2">
-                    {gradeTitle}: {gradeDetail}
-                  </Typography>
-                )
-              })
+              assignmentTotal += parseFloat(gradeDetail)
+              return (
+                <Typography key={index} variant="body2">
+                  {gradeTitle}: {gradeDetail}
+                </Typography>
+              )
+            })
             : null}
+
         </Grid>
+        {assignmentTotal !== 0 && <Grid item borderTop={"1px solid #000"} paddingTop={2}>
+          <Typography variant="body1">Total: {assignmentTotal}</Typography>
+        </Grid>}
       </Grid>
     </StyledPaper>
   )

@@ -25,7 +25,7 @@ export function StudentAccount({ userName, handleClick }) {
             noWrap
             overflow="hidden"
             text-overflow="ellipsis"
-            maxWidth={100}
+            maxWidth={300}
           >
             {userName}
           </Typography>

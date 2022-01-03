@@ -28,14 +28,59 @@ const StyledCSVLink = styled(CSVLink)({
 const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
   const assignmentTemplate = [["StudentId", "Grade"]]
   const [data, setData] = useState([])
-
   const location = useLocation()
   const classId = location.pathname.split("/")[2]
-  const { countRerender } = useContext(tabsContext)
+  const { countRerender, gradeStruct, updateGradeStruct, classDetails } = useContext(tabsContext)
 
   const handleUploadAssignment = (value) => {
     setData(value)
     countRerender()
+  }
+
+  const handleMarkAsFinal = () => {
+    const isFinalized = gradeStruct.find((item) => {
+      if (item._id === assignmentId) {
+        return item.isFinalized
+      } else return false
+    })
+
+    const updateAssignmentStatus = async (assignmentId) => {
+      let res = false
+
+      try {
+        res = await classroomAxios.put(`assignment/mark-as-final/${assignmentId}`, {
+          assignmentStatus: true
+        })
+      } catch (error) {
+        console.error(error)
+      }
+
+      if (res) {
+        //update gradeStruct
+        try {
+          const response = await classroomAxios.post(
+            `assignment/getGradeAssignment`,
+            {
+              classId: classDetails._id,
+            }
+          )
+          if (response) {
+            updateGradeStruct(response.data)
+          }
+        } catch (error) {
+          console.error(error)
+        }
+      }
+    }
+
+    if (isFinalized) {
+      alert("You marked")
+    } else {
+      updateAssignmentStatus(assignmentId)
+      alert("Mark successfull")
+    }
+
+    handleClose()
   }
 
   useEffect(() => {
@@ -114,7 +159,7 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
         </StyledCSVLink>
       </MenuItem>
       <Divider />
-      <MenuItem onClick={handleClose}>Return all</MenuItem>
+      <MenuItem onClick={handleMarkAsFinal}>Mark as final</MenuItem>
     </Menu>
   )
 }
@@ -133,6 +178,7 @@ export default function GradeBoardTableHead() {
     // console.log(id)
     setAssignmentId(id)
     setAnchorEl(event.currentTarget)
+
   }
 
   return (
@@ -143,34 +189,34 @@ export default function GradeBoardTableHead() {
           <FixedTableCell>Fullname</FixedTableCell>
           {gradeStruct.length !== 0
             ? gradeStruct.map((grade, index) => (
-                <StyledTableCell key={index}>
-                  <Grid container direction={"column"}>
-                    <Grid item>
-                      <Grid
-                        container
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                      >
-                        <Grid item>{grade.gradeTitle}</Grid>
-                        <Grid item>
-                          <IconButton
-                            aria-label="menu of an assignment"
-                            aria-controls="menu-assignment"
-                            aria-haspopup="true"
-                            onClick={(e) => handleClick(e, grade._id)}
-                            color="inherit"
-                          >
-                            <MoreVertIcon />
-                          </IconButton>
-                        </Grid>
+              <StyledTableCell key={index}>
+                <Grid container direction={"column"}>
+                  <Grid item>
+                    <Grid
+                      container
+                      alignItems={"center"}
+                      justifyContent={"space-between"}
+                    >
+                      <Grid item>{grade.gradeTitle}</Grid>
+                      <Grid item>
+                        <IconButton
+                          aria-label="menu of an assignment"
+                          aria-controls="menu-assignment"
+                          aria-haspopup="true"
+                          onClick={(e) => handleClick(e, grade._id, grade.isFinalized)}
+                          color="inherit"
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
                       </Grid>
                     </Grid>
-                    <Grid style={{ borderTop: "1px solid #ABB2B9" }}>
-                      out of 100
-                    </Grid>
                   </Grid>
-                </StyledTableCell>
-              ))
+                  <Grid style={{ borderTop: "1px solid #ABB2B9" }}>
+                    out of 100
+                  </Grid>
+                </Grid>
+              </StyledTableCell>
+            ))
             : null}
           <StyledTableCell align="right">Total</StyledTableCell>
         </TableRow>

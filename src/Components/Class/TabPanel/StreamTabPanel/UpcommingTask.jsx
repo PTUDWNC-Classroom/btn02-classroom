@@ -15,7 +15,7 @@ const ViewAllButton = styled(Button)`
 
 export default function UpcommingTask() {
   return (
-    <StyledPaper elevation={0}>
+    <StyledPaper>
       <Grid container direction="column" justifyContent="center">
         <Grid item xs={12}>
           <Typography variant="body1">
