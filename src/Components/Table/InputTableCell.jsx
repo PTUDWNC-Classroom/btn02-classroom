@@ -19,7 +19,7 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
   const [grade, setGrade] = useState(initValue)
   const [originalGrade, setOriginalGrade] = useState(initValue)
   const [showEdit, setShowEdit] = useState(false)
-
+  
   const handleChangeGrade = (e) => {
     setGrade(e.target.value)
   }
@@ -71,6 +71,7 @@ export default function InputTableCell({ studentId, assignmentId, initValue }) {
   }
 
   const handleMouseLeave = () => {
+    setGrade(originalGrade)
     setShowEdit(false)
   }
 
