@@ -22,11 +22,11 @@ function a11yProps(index) {
   }
 }
 
-function Grades({ role, ...a11yProps }) {
-  if (role === "member") {
-    return null
-  } else return <StyledTab label="Grades" {...a11yProps} />
-}
+// function Grades({ role, ...a11yProps }) {
+//   if (role === "member") {
+//     return null
+//   } else return <StyledTab label="Grades" {...a11yProps} />
+// }
 
 export function TabsManagerUpMD({ role, gridNumber }) {
   const { value, handleChange } = React.useContext(tabsContext)
@@ -43,7 +43,8 @@ export function TabsManagerUpMD({ role, gridNumber }) {
         <StyledTab label="Stream" {...a11yProps(0)} />
         <StyledTab label="Classwork" {...a11yProps(1)} />
         <StyledTab label="People" {...a11yProps(2)} />
-        <Grades role={role} {...a11yProps(3)} />
+        <StyledTab label="Grade" {...a11yProps(3)} />
+        {/* <Grades role={role} {...a11yProps(3)} /> */}
       </Tabs>
     </Grid>
   )
@@ -71,7 +72,8 @@ export function TabsManagerDownMD({ role }) {
           <StyledTab label="Stream" {...a11yProps(0)} />
           <StyledTab label="Classwork" {...a11yProps(1)} />
           <StyledTab label="People" {...a11yProps(2)} />
-          <Grades role={role} {...a11yProps(3)} />
+          <StyledTab label="Grade" {...a11yProps(3)} />
+          {/* <Grades role={role} {...a11yProps(3)} /> */}
         </Tabs>
       </Grid>
     )

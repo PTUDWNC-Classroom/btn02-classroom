@@ -10,7 +10,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 export default function ClassTopic() {
   return (
-    <StyledPaper elevation={0}>
+    <StyledPaper>
       <Typography variant="h5">Communicate with your class here</Typography>
     </StyledPaper>
   )

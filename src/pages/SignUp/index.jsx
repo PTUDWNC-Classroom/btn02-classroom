@@ -95,10 +95,17 @@ export default function SignUp() {
     setErrorUserName(username !== "" ? false : true)
     setErrorPassword(password !== "" ? false : true)
 
+    // if (
+    //   errorEmail === false &&
+    //   errorUserName === false &&
+    //   errorPassword === false
+    // ) {
+    //   return false
+    // }
     if (
-      errorEmail === false &&
-      errorUserName === false &&
-      errorPassword === false
+      (!email.match(/.+@.+/)) === false &&
+      ((username !== "") === true) &&
+      ((password !== "") === true)
     ) {
       return false
     }
@@ -108,7 +115,6 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    // console.log("submit")
     const data = new FormData(event.currentTarget)
 
     const user = {

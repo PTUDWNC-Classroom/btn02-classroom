@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import {
   Grid,
   Typography,
@@ -54,6 +54,7 @@ export default function StudentIDListItem({ studentId, handleAddStudentId }) {
   const theme = useTheme()
   const { login, user } = useContext(ClassroomContext)
   const [edit, setEdit] = React.useState(false)
+  const [isConflict,setConflict] = useState(false);
   const matchDownSM = useMediaQuery(theme.breakpoints.down("sm"))
   const {
     register,
@@ -67,6 +68,7 @@ export default function StudentIDListItem({ studentId, handleAddStudentId }) {
   const handleEdit = () => {
     clearErrors("studentId")
     setEdit(!edit)
+    setConflict(false)
   }
 
   const onSubmit = async (data) => {
@@ -80,9 +82,16 @@ export default function StudentIDListItem({ studentId, handleAddStudentId }) {
       if (response) {
         localStorage.setItem("isSocialLogin", JSON.stringify(response.data))
       }
+    
       login(response.data)
       setEdit(false)
+      setConflict(false);
+      
     } catch (error) {
+      if(error.message.includes('409'))
+      {
+        setConflict(true);
+      }
       console.error(error)
     }
   }
@@ -119,6 +128,11 @@ export default function StudentIDListItem({ studentId, handleAddStudentId }) {
                       {errors.studentId && (
                         <Typography color="error">
                           {errors.studentId?.message}
+                        </Typography>
+                      )}
+                       {isConflict && (
+                        <Typography color="error">
+                           Student Id has been used!
                         </Typography>
                       )}
                     </>
@@ -166,6 +180,11 @@ export default function StudentIDListItem({ studentId, handleAddStudentId }) {
                       {errors.studentId?.message}
                     </Typography>
                   )}
+                   {isConflict && (
+                        <Typography color="error">
+                           Student Id has been used!
+                        </Typography>
+                      )}
                 </Grid>
               </>
             )}
