@@ -49,6 +49,7 @@ export default function AccountUser() {
     //REMOVE localStorage
     localStorage.removeItem("isLogin")
     localStorage.removeItem("token")
+    localStorage.removeItem("refreshToken")
     history.replace("/")
   }
   return (

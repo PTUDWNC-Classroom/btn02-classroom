@@ -36,12 +36,13 @@ function SocialLogin() {
           JSON.stringify(verifiedUser.user)
         )
         window.localStorage.setItem("token", `Bearer  ${verifiedUser.idToken}`)
+        localStorage.setItem("refreshToken", verifiedUser.refreshToken)
 
         // Dispatch "local-storage" event to call
         window.dispatchEvent(new Event("local-storage"))
         login(verifiedUser.user)
 
-        alert("Đăng nhập thành công !")
+        alert("Đăng nhập thành công !!")
       } catch (error) {
         console.error(error)
       }

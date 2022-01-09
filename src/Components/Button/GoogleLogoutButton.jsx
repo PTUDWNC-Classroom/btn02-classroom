@@ -10,6 +10,7 @@ function SocialLogout() {
     // REMOVE localStorage
     localStorage.removeItem("isSocialLogin")
     localStorage.removeItem("token")
+    localStorage.removeItem("refreshToken")
     //console.log('Logout made successfully');
     //alert('Logout made successfully ✌');
     history.replace("/")
