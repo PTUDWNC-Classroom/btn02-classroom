@@ -4,13 +4,25 @@ import { Typography, Grid, Checkbox, IconButton } from "@mui/material"
 import { styled } from "@mui/system"
 import { grey } from "@mui/material/colors"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
+import { Link } from "react-router-dom"
+import { blue } from '@mui/material/colors';
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   padding: `${theme.spacing(2)} ${theme.spacing(1)}`,
   borderBottom: `1px solid ${grey[500]}`,
 }))
 
-export function StudentAccount({ userName, handleClick }) {
+const StyledLink = styled(Link)(({ theme }) => ({
+  textDecorationLine: "none",
+  color: "#000",
+  "&:hover": {
+    color: blue[500],
+    textDecorationLine: "underline"
+  }
+}))
+
+
+export function StudentAccount({ userName, handleClick, userId, classId }) {
   return (
     <StyledGrid container>
       <Grid container item alignItems="center" spacing={1} xs={11}>
@@ -27,7 +39,7 @@ export function StudentAccount({ userName, handleClick }) {
             text-overflow="ellipsis"
             maxWidth={300}
           >
-            {userName}
+            <StyledLink to={`/${classId}/member-details/${userId}`}>{userName}</StyledLink>
           </Typography>
         </Grid>
       </Grid>
@@ -40,7 +52,7 @@ export function StudentAccount({ userName, handleClick }) {
   )
 }
 
-export default function Account({ userName }) {
+export default function Account({ userName, userId, classId }) {
   return (
     <StyledGrid container>
       <Grid container item alignItems="center" spacing={1}>
@@ -48,7 +60,16 @@ export default function Account({ userName }) {
           <Avatar alt={userName} src="/user.svg" />
         </Grid>
         <Grid item>
-          <Typography>{userName}</Typography>
+          <Typography
+            noWrap
+            overflow="hidden"
+            text-overflow="ellipsis"
+            maxWidth={300}
+          >
+            <StyledLink to={`/${classId}/member-details/${userId}`} >
+              {userName}
+            </StyledLink>
+          </Typography>
         </Grid>
       </Grid>
     </StyledGrid>

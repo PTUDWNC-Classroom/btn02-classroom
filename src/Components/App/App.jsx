@@ -16,6 +16,7 @@ import Profile from "../../pages/Profile"
 import ClassList from "../../pages/ClassList"
 import { ClassroomContextProvider } from "../../context/ClassroomContext"
 import { setToken } from "../DataConnection/axiosConfig"
+import MemberDetails from "../../pages/MemberDetails"
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(3),
@@ -112,6 +113,9 @@ function App() {
               />
               <Route exact path="/profile">
                 <Profile />
+              </Route>
+              <Route exact path="/:id/member-details/:id">
+                <MemberDetails />
               </Route>
             </Switch>
           </StyledContainer>

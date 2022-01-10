@@ -66,7 +66,7 @@ export default function PeopleTabPanel({ value, index }) {
   const message = "Nhập email sai format hoặc bỏ trống !"
   const [openAlert, setOpenAlert] = useState(false)
   const [alertMessage, setAlertMessage] = useState("")
-  const { role } = useContext(tabsContext)
+  const { role, classDetails } = useContext(tabsContext)
 
   const checkEmail = async () => {
     setErrorEmail(!itemInput.match(/.+@.+/))
@@ -219,8 +219,10 @@ export default function PeopleTabPanel({ value, index }) {
                 teacherList.map((teacher) => (
                   <Account
                     key={teacher.userId}
+                    userId={teacher.userId}
                     userName={teacher.username}
                     handleClick={handleClick}
+                    classId={classDetails._id}
                   />
                 ))}
             </div>
@@ -232,19 +234,23 @@ export default function PeopleTabPanel({ value, index }) {
             <div>
               {studentList && role === "creator"
                 ? studentList.map((student) => (
-                    <StudentAccount
-                      key={student.userId}
-                      userName={student.username}
-                      handleClick={handleClick}
-                    />
-                  ))
-                : studentList.map((student) => (
-                    <Account
-                      key={student.userId}
-                      userName={student.username}
-                      handleClick={handleClick}
-                    />
-                  ))}
+                  <StudentAccount
+                    key={student.userId}
+                    userId={student.userId}
+                    userName={student.username}
+                    handleClick={handleClick}
+                    classId={classDetails._id}
+                  />
+                ))
+                : studentList.map((student, index) => (
+                  <Account
+                    key={index}
+                    userId={student.userId}
+                    userName={student.username}
+                    handleClick={handleClick}
+                    classId={classDetails._id}
+                  />
+                ))}
             </div>
             <InvitationDialog
               memberType={memberType}
