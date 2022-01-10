@@ -41,7 +41,7 @@ AssignmentTabPanel.propTypes = {
 
 export default function MemberTabPanel() {
   const [valueAssignment, setValue] = React.useState(0)
-  console.log('membertabpanel')
+  //console.log('membertabpanel')
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }

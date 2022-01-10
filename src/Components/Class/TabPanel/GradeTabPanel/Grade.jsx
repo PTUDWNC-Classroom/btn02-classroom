@@ -101,7 +101,7 @@ export default function Grade() {
     const [error, setError] = React.useState(null)
     const [title,setTitle] = useState('');
     const { register, reset, handleSubmit} = useForm()
-    console.log('Grade student')
+    //console.log('Grade student')
 
     const handleCloseCreateClass = () => {
         setOpenCreateClass(false)
@@ -133,10 +133,21 @@ export default function Grade() {
               Date: new Date(),
               title: title
             })
-            console.log(res.data)
-            setError(null)
-            setLoading(false)
-            handleCloseCreateClass()
+            //console.log(res.data)
+            if(res.data === true)
+            {
+                setError(null)
+                setLoading(false)
+                handleCloseCreateClass()
+            }
+            else
+            {
+                //console.log("Không thể gửi request!!!")
+                //setError("Không thể gửi request!!!")
+                alert("Không thể gửi request!!!")
+                setLoading(false)
+            }
+            
           } catch (error) {
             console.error(error)
             setError(error)

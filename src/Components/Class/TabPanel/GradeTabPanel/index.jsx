@@ -36,7 +36,7 @@ AssignmentTabPanel.propTypes = {
 
 export default function GradeTabPanel({ value, index }) {
   const { role } = useContext(tabsContext)
-  console.log("GradeTabPanel")
+  //console.log("GradeTabPanel")
   return (
     <TabPanel value={value} index={index}>
       {role === "member" ? <MemberTabPanel /> : <CreatorTabPanel />}
