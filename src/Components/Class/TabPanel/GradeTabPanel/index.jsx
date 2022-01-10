@@ -3,8 +3,8 @@ import PropTypes from "prop-types"
 import Box from "@mui/material/Box"
 import TabPanel from ".."
 import { tabsContext } from "../../../../context/TabsContext"
-import MemberTabPanel from "./MemberTabPanel"
 import CreatorTabPanel from "./CreatorTabPanel"
+import MemberTabPanel from "./MemberTabPanel"
 
 function AssignmentTabPanel(props) {
   const { children, valueAssignment, index, ...other } = props
@@ -36,7 +36,7 @@ AssignmentTabPanel.propTypes = {
 
 export default function GradeTabPanel({ value, index }) {
   const { role } = useContext(tabsContext)
-
+  console.log("GradeTabPanel")
   return (
     <TabPanel value={value} index={index}>
       {role === "member" ? <MemberTabPanel /> : <CreatorTabPanel />}
