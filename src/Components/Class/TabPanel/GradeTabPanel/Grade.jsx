@@ -100,6 +100,7 @@ export default function Grade() {
     const [openCreateClass, setOpenCreateClass] = React.useState(false)
     const [error, setError] = React.useState(null)
     const [title,setTitle] = useState('');
+    const [gradeId,setGradeId] = useState('');
     const { register, reset, handleSubmit} = useForm()
     //console.log('Grade student')
 
@@ -107,7 +108,8 @@ export default function Grade() {
         setOpenCreateClass(false)
         if (error) {
             reset({
-                message: ""
+                message: "",
+                grade: ""
             })
             setError(null)
         }
@@ -119,36 +121,35 @@ export default function Grade() {
 
     const handleClick = (event,gradeId,gradeTitle) => {
         setTitle(gradeTitle)
+        setGradeId(gradeId)
         setAnchorEl(event.currentTarget)
     }
 
     const onSubmit = async (data) => {
+        //console.log(data.grade)
         setLoading(true)
         try {
             const res = await classroomAxios.post(`review/sendMessage`, {
               Message: data.message,
+              grade: data.grade,
+              assignmentId: gradeId,
               classRoomId: classDetails._id,
               creator: classDetails.creator,
               userId: user._id,
               Date: new Date(),
               title: title
             })
-            //console.log(res.data)
-            if(res.data === true)
+
+            if(res)
             {
                 setError(null)
                 setLoading(false)
                 handleCloseCreateClass()
-            }
-            else
-            {
-                //console.log("Không thể gửi request!!!")
-                //setError("Không thể gửi request!!!")
-                alert("Không thể gửi request!!!")
-                setLoading(false)
+                alert("Đã gửi thành công!")
             }
             
           } catch (error) {
+            alert("Không thể gửi request!!!")
             console.error(error)
             setError(error)
             setLoading(false)
@@ -271,13 +272,23 @@ export default function Grade() {
                             >
                                 <TextField
                                     id="class-name"
-                                    label="Message"
+                                    label="Explanation Message"
                                     variant="filled"
                                     fullWidth
                                     required
                                     {...register("message", {
                                         required: true,
                                         maxLength: 100,
+                                    })}
+                                />
+                                <TextField
+                                    id="expect-grade"
+                                    label="Expectation Grade"
+                                    variant="filled"
+                                    fullWidth
+                                    required
+                                    {...register("grade", {
+                                        required: true,
                                     })}
                                 />
                             </DialogContent>

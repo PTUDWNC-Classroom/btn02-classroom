@@ -31,7 +31,7 @@ export default function formEmailForget({
   )
 }
 
-export function BasicTextFields({ label, itemInput, setItemInput, errorEmail, message  }) {
+export function BasicTextFields({ label, itemInput, setItemInput, errorEmail, message, type  }) {
   console.log(itemInput)
   return (
     <div>
@@ -49,6 +49,7 @@ export function BasicTextFields({ label, itemInput, setItemInput, errorEmail, me
           autoFocus
           margin="dense"
           helperText={errorEmail ? message : " "}
+          type = {type}
         />
       </div>
     </div>

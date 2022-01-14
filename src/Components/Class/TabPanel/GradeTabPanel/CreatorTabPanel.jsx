@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import Tab from "@mui/material/Tab"
 import { Container } from "@mui/material"
 import AssignmentStruct from "./AssignmentStruct"
+import Review from './Review'
 //import Review from './Review'
 
 function a11yProps(index) {
@@ -57,7 +58,7 @@ export default function CreatorTabPanel() {
         >
           <Tab label="Grade Structure" {...a11yProps(0)} />
           <Tab label="Manage Board" {...a11yProps(1)} />
-          {/* <Tab label="Review" {...a11yProps(2)} /> */}
+          <Tab label="Review" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <AssignmentTabPanel valueAssignment={valueAssignment} index={0}>
@@ -68,9 +69,9 @@ export default function CreatorTabPanel() {
       <AssignmentTabPanel valueAssignment={valueAssignment} index={1}>
         <ManageBoard />
       </AssignmentTabPanel>
-      {/* <AssignmentTabPanel valueAssignment={valueAssignment} index={2}>
+      <AssignmentTabPanel valueAssignment={valueAssignment} index={2}>
         <Review />
-      </AssignmentTabPanel> */}
+      </AssignmentTabPanel>
     </Box>
   )
 }

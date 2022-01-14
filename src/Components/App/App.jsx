@@ -17,6 +17,7 @@ import ClassList from "../../pages/ClassList"
 import { ClassroomContextProvider } from "../../context/ClassroomContext"
 import { setToken } from "../DataConnection/axiosConfig"
 import MemberDetails from "../../pages/MemberDetails"
+import Comment from "../Class/Comment"
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(3),
@@ -102,6 +103,23 @@ function App() {
                     return <ClassJoin />
                   } else if (localStorage.isLogin) {
                     return <ClassJoin />
+                  } else {
+                    localStorage.setItem(
+                      "previousLocation",
+                      window.location.pathname
+                    )
+                    return <Redirect to="/sign-in" />
+                  }
+                }}
+              />
+              <Route
+                exact
+                path="/comment/*"
+                render={() => {
+                  if (localStorage.isSocialLogin) {
+                    return <Comment />
+                  } else if (localStorage.isLogin) {
+                    return <Comment />
                   } else {
                     localStorage.setItem(
                       "previousLocation",
