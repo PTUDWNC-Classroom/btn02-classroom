@@ -128,6 +128,19 @@ export default function Grade() {
     const onSubmit = async (data) => {
         //console.log(data.grade)
         setLoading(true)
+
+        try {
+            await classroomAxios.post(`notification/request-grade`, {
+              classRoomId: classDetails._id,
+              userId: user._id,
+              title: title
+            })
+            
+          } catch (error) {
+            alert("Không thể gửi Notification!!!")
+            console.error(error)
+          }
+        
         try {
             const res = await classroomAxios.post(`review/sendMessage`, {
               Message: data.message,

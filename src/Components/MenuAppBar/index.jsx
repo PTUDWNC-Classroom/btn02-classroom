@@ -21,6 +21,7 @@ import AccountUser from "../Button/AccountUserButton"
 import { tabsContext } from "../../context/TabsContext"
 import NavigationDrawer from "./NavigationDrawer"
 import { ClassroomContext } from "../../context/ClassroomContext"
+import NotificationCustom from "../NotificationCustom"
 
 const StyledAppBar = styled(AppBar)`
   background-color: ${grey[900]};
@@ -142,6 +143,7 @@ export default function MenuAppBar() {
               />
               <MainAppBar path={location.pathname} />
               <CreateClassButton />
+              <NotificationCustom/>
               <AccountUser />
             </Toolbar>
             <Grid

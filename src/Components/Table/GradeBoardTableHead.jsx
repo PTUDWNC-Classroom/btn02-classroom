@@ -10,6 +10,7 @@ import { CSVLink } from "react-csv"
 import Papa from "papaparse"
 import classroomAxios from "../DataConnection/axiosConfig"
 import { useLocation } from "react-router"
+import { ClassroomContext } from "../../context/ClassroomContext"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   border: "1px solid #ABB2B9",
@@ -28,6 +29,7 @@ const StyledCSVLink = styled(CSVLink)({
 const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
   const assignmentTemplate = [["StudentId", "Grade"]]
   const [data, setData] = useState([])
+  const {user} = useContext(ClassroomContext)
   const location = useLocation()
   const classId = location.pathname.split("/")[2]
   const { countRerender, gradeStruct, updateGradeStruct, classDetails } = useContext(tabsContext)
@@ -46,6 +48,15 @@ const AssignmentMenu = ({ handleClose, anchorEl, assignmentId }) => {
 
     const updateAssignmentStatus = async (assignmentId) => {
       let res = false
+      console.log("mark-as-final")
+      try {
+        await classroomAxios.post("notification/mark-as-final", {
+          sendUser: user._id,
+          assignmentId: assignmentId
+        })
+      } catch (error) {
+        console.error(error)
+      }
 
       try {
         res = await classroomAxios.put(`assignment/mark-as-final/${assignmentId}`, {

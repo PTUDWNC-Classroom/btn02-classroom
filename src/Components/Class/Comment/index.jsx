@@ -48,7 +48,17 @@ export default function Comment() {
 
 
     const sendHandler = async () => {
-        //console.log(commentInput)
+        try {
+            await classroomAxios.post(`notification/addCommentNotification`,
+                {
+                    reviewId: reviewId,
+                    title: title,
+                    user: user._id
+                })
+
+        } catch (error) {
+            console.error(error);
+        }
         try {
             const res = await classroomAxios.post(`review/addComment`,
                 {
@@ -69,6 +79,17 @@ export default function Comment() {
     }
 
     const handleUpdate = async ()=>{
+        try {
+            await classroomAxios.post("notification/updateGradeByReview",
+                {
+                    reviewId: reviewId,
+                    title: title,
+                    user: user._id
+                })
+
+        } catch (error) {
+            console.error(error);
+        }
         try {
             const res = await classroomAxios.post(`assignment/updateGradeByReview`,
                 {
