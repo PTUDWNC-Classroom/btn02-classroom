@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 
 import IconButton from "@mui/material/IconButton"
 import MenuItem from "@mui/material/MenuItem"
@@ -23,6 +23,8 @@ import { useLocation } from "react-router"
 
 import CancelButton from "./CancelButton"
 import { ClassroomContext } from "../../context/ClassroomContext"
+import { BasicTextFields } from "../../Components/Form/FormEmail"
+import { useHistory } from "react-router"
 
 const AddIconButton = styled(IconButton)`
   &:hover {
@@ -36,7 +38,10 @@ export default function CreateClassButton() {
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { updateClassList } = useContext(ClassroomContext)
-
+  const [openJoinClass,setOpenJoinClass] = React.useState(false);
+  const [itemCode,setItemCode] = useState('')
+  const { user } = useContext(ClassroomContext);
+  const history = useHistory();
   //change user
 
   // let user = null
@@ -98,6 +103,28 @@ export default function CreateClassButton() {
     }
   }
 
+  const handleOpenJoinClass = async()=>{
+    setOpenJoinClass(true);
+  }
+
+  const handleSubmitJoinClass = async()=>{
+    try {
+      const response = await classroomAxios.post(`join/join-class-by-code`, {
+       code: itemCode,
+       user: user
+      })
+
+      if(response)
+      {
+        alert("Join class thành công!")
+        history.replace(`/classes/${response.data}`)
+      }
+    } catch (error) {
+      console.error(error)
+      alert("Join class không thành công!")
+    }
+  }
+
   React.useEffect(() => {
     if (!error && formState.isSubmitSuccessful) {
       reset({
@@ -139,7 +166,11 @@ export default function CreateClassButton() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Join class</MenuItem>
+          <MenuItem onClick={()=>
+            {
+              handleClose()
+              handleOpenJoinClass()
+              }}>Join class</MenuItem>
           <MenuItem
             onClick={() => {
               handleClose()
@@ -241,7 +272,29 @@ export default function CreateClassButton() {
               </DialogActions>
             </form>
           </Dialog>
+
+         
         </Menu>
+        <Dialog open={openJoinClass}>
+          <DialogContent>
+            <Typography>
+              <b>Nhập Code để Join Class</b>
+            </Typography>
+            <form>
+            <BasicTextFields
+                itemInput={itemCode}
+                setItemInput={setItemCode}
+                type = {"Text"}
+              />
+              <Button type="cancel" onClick={()=>setOpenJoinClass(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleSubmitJoinClass}>
+                Submit
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
       </>
     )
 }

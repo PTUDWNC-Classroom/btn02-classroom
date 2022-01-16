@@ -72,6 +72,7 @@ export default function StreamTabPanel({ value, index }) {
               subject={classDetails.subject}
               room={classDetails.room}
               inviteCode={classDetails.inviteCode}
+              code = {classDetails.code}
             />
           </Grid>
 

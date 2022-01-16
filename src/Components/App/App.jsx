@@ -80,7 +80,7 @@ function App() {
               </Route>
               <Route
                 exact
-                path="/join-Student/*"
+                path="/join-student/*"
                 render={() => {
                   if (localStorage.isSocialLogin) {
                     return <ClassJoin />
@@ -97,7 +97,7 @@ function App() {
               />
               <Route
                 exact
-                path="/join-Teacher/*"
+                path="/join-teacher/*"
                 render={() => {
                   if (localStorage.isSocialLogin) {
                     return <ClassJoin />

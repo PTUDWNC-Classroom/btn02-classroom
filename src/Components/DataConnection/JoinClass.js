@@ -5,8 +5,8 @@ const url = `join/add-student`
 const url1 = `join/add-teacher`
 
 export default async function addStudentIntoClass(userInfo, id) {
-  //console.log("userInfo")
-  //console.log(userInfo);
+  console.log("userInfo")
+  console.log(userInfo);
   try {
     const response = await classroomAxios.post(url, {
       _id: userInfo._id,

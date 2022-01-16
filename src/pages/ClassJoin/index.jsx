@@ -33,13 +33,14 @@ export default function ClassJoin() {
     } else if (localStorage.isLogin) {
       //console.log("Join ClassJoin.js")
       //console.log(JSON.parse(localStorage.isLogin))
-      user = JSON.parse(localStorage.isLogin)
+      user = JSON.parse(localStorage.isLogin).user
     }
-    // console.log(user)
+    console.log("JOIN CLASS")
     let check = null
     if (str[str.length - 2] === "join-teacher") {
       check = await addTeacherIntoClass(user, id)
     } else if (str[str.length - 2] === "join-student") {
+      console.log("Add student")
       check = await addStudentIntoClass(user, id)
     }
     if (check !== null) {

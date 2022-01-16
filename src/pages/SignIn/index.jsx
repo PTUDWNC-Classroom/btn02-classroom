@@ -76,6 +76,9 @@ export default function SignIn() {
 
       if (localStorage.previousLocation) {
         //console.log(localStorage.previousLocation)
+        let url = localStorage.previousLocation
+        localStorage.removeItem("previousLocation")
+        history.replace(url)
       } else {
         history.replace("/")
       }

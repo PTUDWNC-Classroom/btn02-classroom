@@ -59,10 +59,12 @@ export default function ClassInfo({
   subject,
   room,
   inviteCode,
+  code
 }) {
   const [showInfoBtn, setShowInfoBtn] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const [copy, setCopy] = useState(false)
+  const [copyCode, setCopyCode] = useState(false)
   const location = window.location.href.split("/classes")[0]
   const theme = useTheme()
 
@@ -75,8 +77,14 @@ export default function ClassInfo({
     setCopy(true)
   }
 
+  const handleCopyCode = ()=>{
+    navigator.clipboard.writeText(code)
+    setCopyCode(true)
+  }
+
   const handleResetCopyState = () => {
     setCopy(false)
+    setCopyCode(false)
   }
 
   useEffect(() => {
@@ -125,7 +133,31 @@ export default function ClassInfo({
         >
           <Grid item xs={12}>
             <StyledTypography variant="h4">{className}</StyledTypography>
-            <Stack direction="row" alignItems="center" spacing={1}>
+            <Stack direction="column" spacing={1}>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography
+                  display="block"
+                  variant="h6"
+                  noWrap
+                  overflow="hidden"
+                  text-overflow="ellipsis"
+                >
+                  <b>Invitation link:</b>{" "}
+                  {location + `/join-student/${inviteCode}`}
+                </Typography>
+                <Tooltip title={copy ? "Copied!" : "Click to copy"}>
+                  <IconButton
+                    sx={{ color: grey[50] }}
+                    onClick={() => handleCopyClassCode(location)}
+                    onMouseLeave={handleResetCopyState}
+                  >
+                    <ContentCopyIcon />
+                  </IconButton>
+                </Tooltip>
+
+              </Stack>
+              
+              <Stack direction="row" alignItems="center" spacing={1}>
               <Typography
                 display="block"
                 variant="h6"
@@ -133,21 +165,23 @@ export default function ClassInfo({
                 overflow="hidden"
                 text-overflow="ellipsis"
               >
-                <b>Invitation link:</b>{" "}
-                {location + `/join-student/${inviteCode}`}
+                <b>Invitation Code:</b>{" "}
+                {`${code}`}
               </Typography>
-              <Tooltip title={copy ? "Copied!" : "Click to copy"}>
-                <IconButton
-                  sx={{ color: grey[50] }}
-                  onClick={() => handleCopyClassCode(location)}
-                  onMouseLeave={handleResetCopyState}
-                >
-                  <ContentCopyIcon />
-                </IconButton>
-              </Tooltip>
+                <Tooltip title={copyCode ? "Copied!" : "Click to copy"}>
+                  <IconButton
+                    sx={{ color: grey[50] }}
+                    onClick={() => handleCopyCode()}
+                    onMouseLeave={handleResetCopyState}
+                  >
+                    <ContentCopyIcon />
+                  </IconButton>
+                </Tooltip>
+
+              </Stack>
             </Stack>
           </Grid>
         </Grid>
-      </StyledPaper>
+      </StyledPaper >
     )
 }
