@@ -107,6 +107,7 @@ export default function SignUp() {
       ((username !== "") === true) &&
       ((password !== "") === true)
     ) {
+      console.log("false")
       return false
     }
     return true
@@ -130,7 +131,8 @@ export default function SignUp() {
     //console.log(handleError(userInfo));
     if (handleError(user) === false) {
       // console.log("handle")
-      const checkExistInData = await sendUserInfoSignUp(userInfo)
+      console.log(userInfo)
+      const checkExistInData = await sendUserInfoSignUp(user)
       // console.log("checkExist")
       // console.log(checkExistInData)
       if (checkExistInData === true) {
@@ -143,7 +145,7 @@ export default function SignUp() {
   }
 
   useEffect(() => {
-    document.title = "Sign in"
+    document.title = "Sign Up"
   }, [])
 
   return (

@@ -1,7 +1,7 @@
 import classroomAxios from "../DataConnection/axiosConfig"
 
-const url = `${process.env.REACT_APP_HOST}user/sign-up`
-const url1 = `${process.env.REACT_APP_HOST}user/valid-email`
+const url = `user/sign-up`
+const url1 = `user/valid-email`
 //const url2 = `${process.env.REACT_APP_HOST}user/login-social`
 
 export default async function sendUserInfoSignUp(userInfo) {
