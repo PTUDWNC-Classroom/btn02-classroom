@@ -28,6 +28,7 @@ function SocialLogin() {
     }
 
     const verifiedUser = await sendUserInfoSocial(info)
+    console.log(verifiedUser)
     if (verifiedUser) {
       // SET ITEM localStorage
       try {
@@ -45,6 +46,7 @@ function SocialLogin() {
         alert("Đăng nhập thành công !!")
       } catch (error) {
         console.error(error)
+        alert("Đăng nhập không thành công !!")
       }
 
       //console.log(localStorage.previousLocation);
@@ -56,7 +58,7 @@ function SocialLogin() {
         history.replace("/")
       }
     } else {
-      alert("Email đã được sử dụng !")
+      alert("Đăng nhập không thành công!")
     }
 
     //window.location.reload();
