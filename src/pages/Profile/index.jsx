@@ -32,7 +32,7 @@ export default function Profile() {
             src="/user.svg"
           />
         </Grid>
-        <Grid item>
+        <Grid item >
           <Typography variant="h5">{user.username}</Typography>
         </Grid>
       </Grid>
@@ -40,7 +40,7 @@ export default function Profile() {
       <Grid item md={6} xs={12}>
         <StyledPaper elevation={1}>
           <Grid container spacing={1}>
-            <Grid item xs>
+            <Grid container justifyContent="center" item xs>
               <Typography variant="h5">Profile</Typography>
             </Grid>
 
